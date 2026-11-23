@@ -1,4 +1,4 @@
-name: Validate Vision Hub
+name: Validate BunnyHub
 on:
   push:
     branches: [main]

@@ -21,6 +21,11 @@
   to = "/copyright.html"
   status = 200
 
+[[redirects]]
+  from = "/cookie-policy"
+  to = "/cookie-policy.html"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]

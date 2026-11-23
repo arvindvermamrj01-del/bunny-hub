@@ -7,6 +7,7 @@
     { "src": "privacy.html", "use": "@vercel/static" },
     { "src": "terms.html", "use": "@vercel/static" },
     { "src": "copyright.html", "use": "@vercel/static" },
+    { "src": "cookie-policy.html", "use": "@vercel/static" },
     { "src": "css/**", "use": "@vercel/static" },
     { "src": "js/**", "use": "@vercel/static" }
   ],
@@ -15,6 +16,7 @@
     { "src": "/privacy", "dest": "/privacy.html" },
     { "src": "/terms", "dest": "/terms.html" },
     { "src": "/copyright", "dest": "/copyright.html" },
+    { "src": "/cookie-policy", "dest": "/cookie-policy.html" },
     { "src": "/robots.txt", "dest": "/robots.txt" },
     { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
     { "src": "/(.*)", "dest": "/index.html" }
