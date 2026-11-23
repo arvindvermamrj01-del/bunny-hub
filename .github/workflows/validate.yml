@@ -1,0 +1,47 @@
+name: Validate Vision Hub
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check all JavaScript syntax
+        run: |
+          set -e
+          find . -type f \( -name '*.js' -o -name '*.mjs' -o -name '*.cjs' \) -not -path './node_modules/*' -print0 | while IFS= read -r -d '' file; do
+            echo "Checking $file"
+            node --check "$file"
+          done
+      - name: Validate SQL migration structure
+        run: |
+          set -e
+          find supabase -type f -name '*.sql' -print0 | while IFS= read -r -d '' file; do
+            echo "Checking $file"
+            dollar_count=$(grep -o '\$\$' "$file" | wc -l)
+            if [ $((dollar_count % 2)) -ne 0 ]; then
+              echo "Unbalanced dollar-quoted SQL body in $file"
+              exit 1
+            fi
+            if grep -Eq '^[[:space:]]*as[[:space:]]+\$[[:space:]]*$|^[[:space:]]*\$;[[:space:]]*$' "$file"; then
+              echo "Malformed SQL dollar delimiter in $file"
+              exit 1
+            fi
+            begins=$(grep -Eic '^[[:space:]]*begin;' "$file" || true)
+            commits=$(grep -Eic '^[[:space:]]*commit;' "$file" || true)
+            if [ "$begins" -ne "$commits" ]; then
+              echo "Unbalanced transaction markers in $file: BEGIN=$begins COMMIT=$commits"
+              exit 1
+            fi
+          done

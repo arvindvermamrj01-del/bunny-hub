@@ -1,0 +1,15 @@
+﻿/* BunnyHub 24/7 aurora branding — colour animation only, no layout changes. */
+.nav-brand .brand-icon,
+.vh-sidebar-brand-icon{
+  background:linear-gradient(135deg,#36d9f5 0%,#8278ff 24%,#ed65c8 48%,#ffca68 68%,#42dca9 86%,#36d9f5 100%)!important;
+  background-size:260% 260%!important;
+  animation:vhBrandIconAurora 10s ease-in-out infinite;
+  box-shadow:0 0 12px rgba(91,164,255,.38),0 0 26px rgba(164,102,255,.25),0 8px 22px rgba(0,0,0,.2)!important;
+  border-color:rgba(255,255,255,.26)!important;
+}
+@keyframes vhBrandIconAurora{
+  0%,100%{background-position:0% 50%;filter:hue-rotate(0deg);box-shadow:0 0 12px rgba(91,164,255,.38),0 0 26px rgba(164,102,255,.25),0 8px 22px rgba(0,0,0,.2)}
+  50%{background-position:100% 50%;filter:hue-rotate(24deg);box-shadow:0 0 16px rgba(67,224,208,.42),0 0 32px rgba(235,104,204,.3),0 8px 22px rgba(0,0,0,.2)}
+}
+.vh-sidebar-brand-icon{filter:drop-shadow(0 0 9px rgba(112,139,255,.3))}
+/* Brand aurora remains animated continuously by design, including reduced-motion preference. */

@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "name": "bunnyhub",
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "download-verify.html", "use": "@vercel/static" },
+    { "src": "privacy.html", "use": "@vercel/static" },
+    { "src": "terms.html", "use": "@vercel/static" },
+    { "src": "copyright.html", "use": "@vercel/static" },
+    { "src": "css/**", "use": "@vercel/static" },
+    { "src": "js/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/download-verify", "dest": "/download-verify.html" },
+    { "src": "/privacy", "dest": "/privacy.html" },
+    { "src": "/terms", "dest": "/terms.html" },
+    { "src": "/copyright", "dest": "/copyright.html" },
+    { "src": "/robots.txt", "dest": "/robots.txt" },
+    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" }
+      ]
+    }
+  ]
+}

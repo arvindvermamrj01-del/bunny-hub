@@ -1,0 +1,14 @@
+# Local environment secrets
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+
+# Local tooling and build output
+node_modules/
+.wrangler/
+dist/
+coverage/
+*.log
+.DS_Store

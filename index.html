@@ -1,0 +1,1753 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Discover licensed movies, TV shows and shorts on BunnyHub. Explore genres, release years, seasons, episodes, watchlists and community updates."/>
+  <meta name="theme-color" content="#0b1020"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="BunnyHub"/>
+  <meta property="og:title" content="BunnyHub | Movies, Web Series & Shorts"/>
+  <meta property="og:description" content="Discover movies, web series and shorts on BunnyHub."/>
+  <meta property="og:url" content="https://bunnyhub.pages.dev/"/>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","name":"BunnyHub","url":"https://bunnyhub.pages.dev/","description":"Discover licensed movies, TV shows and shorts on BunnyHub."}
+  </script>
+  <link rel="canonical" href="https://bunnyhub.pages.dev/"/>
+  <title>BunnyHub 🎬 | Movies, TV Shows & Shorts</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css?v=20261120-6"/>
+  <link rel="stylesheet" href="css/vision-hyper-ui.css?v=20261120-19"/>
+  <link rel="stylesheet" href="css/vision-brand-aurora.css?v=20261120-2"/>
+  <link rel="stylesheet" href="css/cinema4u-layout.css?v=20261121-3"/>
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-brand" onclick="showPage('home')" style="cursor: pointer;">
+        <span class="brand-icon"><svg class="vh-logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M7.5 9.5 18.5 38 27 18" fill="none" stroke="white" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 13.5 40 24 22 34.5Z" fill="white" stroke="rgba(255,255,255,.72)" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+        <span class="vh-brand-lockup">
+          <span class="brand-name"><span class="vh-brand-vision">VISION</span><span class="vh-brand-hub">HUB</span></span>
+          <span class="vh-brand-motto">∞ STORIES WITHOUT LIMITS · @BunnyHub</span>
+        </span>
+      </div>
+
+      <!-- Public Navigation Links -->
+      <div class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active" onclick="showPage('home')">Home</a>
+        <a href="#bollywood" class="nav-link" onclick="filterByIndustry('Bollywood')">Bollywood</a>
+        <a href="#hollywood" class="nav-link" onclick="filterByIndustry('Hollywood')">Hollywood</a>
+        <a href="#south" class="nav-link" onclick="filterByIndustry('South')">South Indian</a>
+        <a href="#movies" class="nav-link" onclick="showPage('movies')">Movies</a>
+        <a href="#series" class="nav-link" onclick="showPage('series')">Web Series</a>
+        <a href="#shows" class="nav-link" onclick="showPage('shows')">Shows</a>
+        <a href="#shorts" class="nav-link" onclick="showPage('shorts')">Shorts</a>
+        <a href="#songs" class="nav-link" onclick="showPage('songs')">Songs</a>
+        <a href="#watchlist" class="nav-link" onclick="showPage('watchlist')">Watchlist</a>
+        <a href="#request" class="nav-link" onclick="showPage('request')">Request Movie</a>
+        <a href="#community" class="nav-link" onclick="showPage('community')">Community</a>
+        <a href="#feedback" class="nav-link" onclick="showPage('feedback')">Feedback</a>
+      </div>
+
+      <!-- User & Auth Actions (NO Admin Button in Public Navbar - Admin is Protected via #control-center) -->
+      <div class="nav-actions">
+        <!-- Telegram Quick Header Button -->
+        <a href="https://t.me/BunnyHub_official" target="_blank" class="btn-telegram-sm telegram-target-link" title="Join our Telegram Channel">
+          <i class="fab fa-telegram-plane"></i> Telegram
+        </a>
+
+        <button class="btn-search-toggle" onclick="toggleSearch()" title="Search Movies (Hotkey: /)"><i class="fas fa-search"></i></button>
+        <button class="btn-theme-toggle" id="themeToggle" type="button" onclick="toggleThemePanel()" aria-label="Choose appearance" aria-controls="themePanel" aria-expanded="false" title="Appearance"><i class="fas fa-palette"></i></button>
+        <div class="theme-panel" id="themePanel" role="dialog" aria-label="Choose appearance" aria-hidden="true">
+          <div class="theme-panel-head"><div><strong>Appearance</strong><small>Personalise your BunnyHub</small></div><button type="button" onclick="toggleThemePanel()" aria-label="Close appearance panel">×</button></div>
+          <p class="theme-current">Current style: <strong id="themeCurrentLabel">ColorOS 17</strong></p>
+          <div class="theme-options">
+            <button type="button" data-theme-choice="hyperos" aria-pressed="false"><span class="theme-swatch theme-swatch-hyper"></span><span><strong>Xiaomi HyperOS 4</strong><small>Soft light glass · Fluid depth</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="miuiOneUi" aria-pressed="false"><span class="theme-swatch theme-swatch-miui"></span><span><strong>MIUI × One UI 9 Blend</strong><small>Colourful cards · Rounded panels</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="oneui" aria-pressed="false"><span class="theme-swatch theme-swatch-oneui"></span><span><strong>Samsung One UI 9</strong><small>Comfortable spacing · Clear hierarchy</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="oxygenos" aria-pressed="false"><span class="theme-swatch theme-swatch-oxygen"></span><span><strong>OxygenOS 16</strong><small>Minimal · Crisp red accents</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="hydrogenos" aria-pressed="false"><span class="theme-swatch theme-swatch-hydrogen"></span><span><strong>HydrogenOS Heritage</strong><small>Classic OnePlus-inspired contrast</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="coloros" aria-pressed="false"><span class="theme-swatch theme-swatch-color"></span><span><strong>ColorOS 17</strong><small>Ocean glass · Smooth surfaces</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="amoled" aria-pressed="false"><span class="theme-swatch theme-swatch-amoled"></span><span><strong>AMOLED Black</strong><small>Deep black · High contrast</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="light" aria-pressed="false"><span class="theme-swatch theme-swatch-light"></span><span><strong>Light Glass</strong><small>Bright · Clean · Minimal</small></span><i class="fas fa-check"></i></button>
+          </div>
+        </div>
+        
+        <!-- Authenticated User Menu (Only for regular users) -->
+        <div id="userNav" class="user-nav hidden">
+          <button class="user-avatar" id="userAvatar" type="button" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" aria-controls="userDropdown">U</button>
+          <div class="dropdown-menu" id="userDropdown">
+            <a onclick="showPage('profile')"><i class="fas fa-user"></i> My Profile</a>
+            <a onclick="showPage('watchlist')"><i class="fas fa-heart"></i> Watchlist</a>
+            <a onclick="showPage('request')"><i class="fas fa-paper-plane"></i> My Requests</a>
+            <a onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a onclick="logoutAllDevices()"><i class="fas fa-shield-alt"></i> Logout All Devices</a>
+          </div>
+        </div>
+
+        <!-- Guest User Auth Buttons (Signup / Login / Guest Mode) -->
+        <div id="authNav">
+          <button class="btn-guest" id="btnGuestMode" onclick="enableGuestMode()" title="Browse as Guest"><i class="fas fa-user-secret"></i> Guest</button>
+          <button class="btn-login" onclick="showPage('login')">Login</button>
+          <button class="btn-signup" onclick="showPage('register')">Sign Up</button>
+        </div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle Navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- BunnyHub compact desktop side navigation -->
+    <nav class="vh-sidebar" id="vhAppSidebar" aria-label="Main navigation">
+      <div class="vh-sidebar-brand">
+        <span class="vh-sidebar-brand-icon" aria-hidden="true"><svg class="vh-logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M7.5 9.5 18.5 38 27 18" fill="none" stroke="white" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 13.5 40 24 22 34.5Z" fill="white" stroke="rgba(255,255,255,.72)" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+        <span class="vh-sidebar-brand-copy"><strong>BunnyHub</strong><small>DISCOVER MORE</small></span>
+      </div>
+      <div class="vh-sidebar-scroll">
+        <div class="vh-sidebar-group" data-vh-nav-group="explore">
+          <div class="vh-sidebar-section-label">EXPLORE</div>
+          <button type="button" class="vh-sidebar-button active" data-vh-nav="home" title="Home" aria-label="Home"><i class="fas fa-house"></i><span>Home</span></button>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="movies" title="Movies" aria-label="Movies"><i class="fas fa-clapperboard"></i><span>Movies</span></button>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="series" title="Web Series" aria-label="Web Series"><i class="fas fa-tv"></i><span>Web Series</span></button>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="shows" title="Shows" aria-label="Shows"><i class="fas fa-star"></i><span>Shows</span></button>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="songs" title="Songs" aria-label="Songs"><i class="fas fa-music"></i><span>Songs</span></button>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="shorts" title="Shorts" aria-label="Shorts"><i class="fas fa-bolt"></i><span>Shorts</span></button>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="watchlist" title="Watchlist" aria-label="Watchlist"><i class="fas fa-bookmark"></i><span>Watchlist</span></button>
+        </div>
+        <div class="vh-sidebar-divider"></div>
+        <div class="vh-sidebar-group" data-vh-nav-group="community">
+          <div class="vh-sidebar-section-label">COMMUNITY</div>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="request" title="Request Content" aria-label="Request Content"><i class="fas fa-paper-plane"></i><span>Request Content</span></button>
+          <button type="button" class="vh-sidebar-button vh-sidebar-donate" data-vh-action="donate" title="Donation" aria-label="Donation"><i class="fas fa-heart"></i><span>Donation</span></button>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="feedback" title="Feedback &amp; Support" aria-label="Feedback and Support"><i class="fas fa-comment-dots"></i><span>Feedback &amp; Support</span></button>
+          <button type="button" class="vh-sidebar-button" data-vh-nav="community" title="BunnyHub Community" aria-label="BunnyHub Community"><i class="fas fa-users"></i><span>BunnyHub Community</span></button>
+        </div>
+        <div class="vh-sidebar-divider"></div>
+        <div class="vh-sidebar-group" data-vh-nav-group="personalise">
+          <div class="vh-sidebar-section-label">PERSONALISE</div>
+          <button type="button" class="vh-sidebar-button" data-vh-action="settings" title="Settings" aria-label="Settings"><i class="fas fa-gear"></i><span>Settings</span></button>
+        </div>
+      </div>
+      <div class="vh-sidebar-footer"><span class="vh-sidebar-status-dot"></span><span>YOUR ENTERTAINMENT SPACE</span></div>
+    </nav>
+
+    <!-- ===== TOP TELEGRAM ANNOUNCEMENT BAR ===== -->
+    <div class="telegram-banner">
+      <div class="telegram-banner-text">
+        <i class="fab fa-telegram-plane"></i>
+        <span class="vh-banner-copy">
+          <strong>BunnyHub DISCOVERY MODE</strong>
+          <small>Explore · Watch · Connect · ∞ Stories Without Limits · @BunnyHub</small>
+        </span>
+      </div>
+      <a href="https://t.me/BunnyHub_official" target="_blank" class="btn-telegram-sm telegram-target-link">
+        <i class="fab fa-telegram-plane"></i> Join Telegram
+      </a>
+      <div class="cinema-top-actions">
+        <button type="button" onclick="showPage('watchlist')"><i class="fas fa-bookmark"></i> Watchlist</button>
+        <button type="button" onclick="showPage('request')"><i class="fas fa-film"></i> Request Movie</button>
+      </div>
+    </div>
+
+    <!-- ===== FLOATING TELEGRAM BUTTON (Always Visible On Mobile & Desktop) ===== -->
+    <a href="https://t.me/BunnyHub_official" target="_blank" class="telegram-fab telegram-target-link" title="Join our Telegram Community">
+      <i class="fab fa-telegram-plane"></i>
+      <span>Join Telegram</span>
+    </a>
+
+    <!-- ===== SEARCH OVERLAY ===== -->
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search movies, web series, genres, actors..." oninput="liveSearch(this.value)" autocomplete="off"/>
+        <button onclick="toggleSearch()" aria-label="Close search"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- ===== TOAST NOTIFICATION ===== -->
+    <div class="toast" id="toast"></div>
+    <div id="maintenanceOverlay" class="hidden" role="status" aria-live="polite" style="position:fixed;inset:0;z-index:99999;background:#090b12;color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;">
+      <div style="max-width:560px;">
+        <div style="font-size:3rem;margin-bottom:14px;">🛠️</div>
+        <h1 style="margin:0 0 12px;">BunnyHub is under maintenance</h1>
+        <p style="color:#c7cad4;line-height:1.7;">We are making a few improvements. Please check back soon.</p>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!--                     PAGES                               -->
+    <!-- ======================================================= -->
+
+    <!-- 1. HOME PAGE -->
+    <div id="page-home" class="page active">
+      <!-- Legacy hero kept for existing app hooks; the Cinema4U-style storefront replaces its presentation. -->
+      <section class="hero" id="heroSection" aria-hidden="true">
+        <div class="hero-bg" id="heroBg"></div><div class="hero-overlay"></div>
+        <div class="hero-content" id="heroContent">
+          <span class="hero-badge">Trending Now</span>
+          <h1 id="heroTitle">Loading…</h1><p id="heroDesc"></p>
+          <div class="hero-meta" id="heroMeta"></div>
+          <div class="hero-buttons">
+            <button class="btn-play" id="heroPlayBtn">Watch Now</button>
+            <button class="btn-add-list" id="heroListBtn">My List</button>
+          </div>
+        </div><div class="hero-dots" id="heroDots"></div>
+      </section>
+
+      <section class="cinema-search-row" aria-label="Search the catalogue">
+        <div class="cinema-search-box">
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input id="cinemaQuickSearch" type="search" autocomplete="off"
+            placeholder="Search movies, web series, actors, genres, languages…"
+            aria-label="Search movies and web series">
+          <kbd>/</kbd>
+        </div>
+      </section>
+
+      <section class="section cinema-top-categories" aria-label="Browse categories">
+        <div class="category-filters" id="cinemaCategoryPills">
+          <button type="button" class="filter-btn active" data-cinema-category="all" aria-pressed="true">🌐 All</button>
+          <button type="button" class="filter-btn" data-cinema-category="new" aria-pressed="false">⚡ New Releases</button>
+          <button type="button" class="filter-btn" data-cinema-category="series" aria-pressed="false">📺 Web Series</button>
+          <button type="button" class="filter-btn" data-cinema-category="bollywood" aria-pressed="false">🇮🇳 Bollywood</button>
+          <button type="button" class="filter-btn" data-cinema-category="south" aria-pressed="false">🔥 South</button>
+          <button type="button" class="filter-btn" data-cinema-category="hollywood" aria-pressed="false">🌍 Hollywood</button>
+          <button type="button" class="filter-btn" data-cinema-category="watchlist" aria-pressed="false">⭐ My Watchlist</button>
+        </div>
+      </section>
+
+      <section class="cinema-promo-grid" aria-label="BunnyHub quick links">
+        <a class="cinema-promo cinema-promo-telegram" href="https://t.me/BunnyHub_official"
+          target="_blank" rel="noopener noreferrer">
+          <div class="cinema-promo-copy">
+            <div class="cinema-promo-kicker"><i class="fab fa-telegram-plane"></i> Official channel</div>
+            <h2>Join the BunnyHub Community</h2>
+            <p>New catalogue announcements and platform updates</p>
+          </div>
+          <span class="cinema-promo-cta">Join <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <button type="button" class="cinema-promo cinema-promo-request" onclick="showPage('request')">
+          <div class="cinema-promo-copy">
+            <div class="cinema-promo-kicker"><i class="fas fa-film"></i> Your next watch</div>
+            <h2>Request a Movie / Series</h2>
+            <p>Send a title suggestion to the BunnyHub team</p>
+          </div>
+          <span class="cinema-promo-cta">Request <i class="fas fa-arrow-right"></i></span>
+        </button>
+      </section>
+
+      <section class="section cinema-legacy-rail hidden" id="publicPostsSection" aria-labelledby="publicPostsHeading">
+        <div class="cinema-section-heading">
+          <div><h2 id="publicPostsHeading">📣 Latest Posts</h2><p>Videos and updates published by the BunnyHub team</p></div>
+          <span class="cinema-heading-meta">Public feed</span>
+        </div>
+        <div class="movies-grid" id="publicPostsGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="vh-ad-section cinema-sponsored-slot" id="vhAdHomeTop" aria-label="Sponsored partner" hidden></section>
+
+      <section class="section cinema-trending-shell">
+        <div class="cinema-section-heading">
+          <div><h2>🔥 Trending on BunnyHub</h2><p>Featured titles and popular picks from the catalogue</p></div>
+          <span class="cinema-heading-meta">Discover</span>
+        </div>
+        <div class="cinema-trending-grid" id="cinemaTrendingGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="section cinema-catalog-section" id="explore-catalog">
+        <div class="cinema-section-heading">
+          <div><h2>🎬 Catalog Explorer</h2><p>Browse the full published BunnyHub library</p></div>
+          <span class="cinema-catalog-count" id="cinemaCatalogCount">Loading titles…</span>
+        </div>
+        <div class="cinema-catalog-toolbar">
+          <div class="cinema-selects">
+            <select id="cinemaGenreFilter" aria-label="Filter by genre">
+              <option value="All">All genres</option>
+            </select>
+            <select id="cinemaQualityFilter" aria-label="Filter by available quality">
+              <option value="All">All qualities</option>
+            </select>
+            <select id="cinemaSortFilter" aria-label="Sort catalogue">
+              <option value="newest">Sort: Latest added</option>
+              <option value="popular">Sort: Most viewed</option>
+              <option value="rating">Sort: Top IMDb</option>
+            </select>
+          </div>
+        </div>
+        <div class="cinema-catalog-grid" id="homeCatalogGrid" aria-live="polite"></div>
+      </section>
+
+      <!-- Additional BunnyHub discovery rails retained from the original platform. -->
+      <section class="section cinema-legacy-rail" id="continueWatchingSection">
+        <div class="cinema-section-heading"><div><h2>▶️ Continue Watching</h2><p>Pick up where you left off</p></div></div>
+        <div class="movies-grid" id="continueWatchingGrid"></div>
+      </section>
+      <section class="section cinema-legacy-rail">
+        <div class="cinema-section-heading"><div><h2>📺 Popular Web Series</h2><p>Series published to your BunnyHub library</p></div><a onclick="showPage('series')" class="see-all">See all →</a></div>
+        <div class="movies-grid" id="seriesGrid"></div>
+      </section>
+      <section class="section cinema-legacy-rail">
+        <div class="cinema-section-heading"><div><h2>⚡ Latest Releases</h2><p>Recently published titles</p></div><a onclick="showPage('movies')" class="see-all">Browse all →</a></div>
+        <div class="movies-grid" id="newGrid"></div>
+      </section>
+
+      <section class="section cinema-legacy-rail hidden" id="popularContentSection">
+        <div class="cinema-section-heading"><div><h2>🔥 Most Popular · Last 30 Days</h2><p>Based on real content-detail views</p></div></div>
+        <div class="movies-grid" id="popularGrid"></div>
+      </section>
+      <section class="section cinema-legacy-rail">
+        <div class="cinema-section-heading"><div><h2>⭐ Top Rated</h2><p>Highest rated published titles</p></div><a onclick="showPage('movies')" class="see-all">Explore →</a></div>
+        <div class="movies-grid" id="topRatedGrid"></div>
+      </section>
+      <section class="section cinema-legacy-rail">
+        <div class="cinema-section-heading"><div><h2>📱 Featured Shorts</h2><p>Short-form videos from BunnyHub</p></div><a onclick="showPage('shorts')" class="see-all">See all →</a></div>
+        <div class="movies-grid" id="homeShortsGrid"></div>
+      </section>
+      <section class="section cinema-legacy-rail">
+        <div class="cinema-section-heading"><div><h2>🎭 Explore Popular Genres</h2><p>Discover by category</p></div></div>
+        <div class="category-filters" id="popularGenreLinks"></div>
+      </section>
+    </div>
+
+    <!-- 2. ALL MOVIES PAGE -->
+    <div id="page-movies" class="page">
+      <div class="page-header-banner">
+        <h1>🎬 All Movies</h1>
+        <p>Browse authorised titles and see the verified video qualities available on each movie</p>
+      </div>
+      <section class="section">
+        <div class="category-filters" id="movieGenreFilters">
+          <button class="filter-btn active" onclick="filterMoviesPage('All',this)">All</button>
+          <button class="filter-btn" onclick="filterMoviesPage('Action',this)">Action</button>
+          <button class="filter-btn" onclick="filterMoviesPage('Drama',this)">Drama</button>
+          <button class="filter-btn" onclick="filterMoviesPage('Comedy',this)">Comedy</button>
+          <button class="filter-btn" onclick="filterMoviesPage('Horror',this)">Horror</button>
+          <button class="filter-btn" onclick="filterMoviesPage('Sci-Fi',this)">Sci-Fi</button>
+          <button class="filter-btn" onclick="filterMoviesPage('Romance',this)">Romance</button>
+          <button class="filter-btn" onclick="filterMoviesPage('Thriller',this)">Thriller</button>
+        </div>
+        <div class="catalog-refine-bar">
+          <label>Release year <select id="movieYearFilter" onchange="filterMovieYear(this.value)"><option value="All">All years</option></select></label>
+          <label>Language <select id="movieLanguageFilter" onchange="filterMovieLanguage(this.value)"><option value="All">All languages</option></select></label>
+          <label>Sort <select id="movieSortFilter" onchange="sortMoviesPage(this.value)"><option value="newest">Newest first</option><option value="rating">Top rated</option><option value="popular">Most viewed</option><option value="title">A–Z title</option></select></label>
+        </div>
+        <div class="movies-grid" id="allMoviesGrid"></div>
+      </section>
+    </div>
+
+    <!-- 3. WEB SERIES PAGE -->
+    <div id="page-series" class="page">
+      <div class="page-header-banner">
+        <h1>📺 Web Series</h1>
+        <p>Binge-worthy web series with multi-season and episode streaming</p>
+      </div>
+      <section class="section">
+        <div class="category-filters" id="seriesGenreFilters">
+          <button class="filter-btn active" onclick="filterSeriesGenre('All',this)">All genres</button>
+          <button class="filter-btn" onclick="filterSeriesGenre('Action',this)">Action</button>
+          <button class="filter-btn" onclick="filterSeriesGenre('Drama',this)">Drama</button>
+          <button class="filter-btn" onclick="filterSeriesGenre('Comedy',this)">Comedy</button>
+          <button class="filter-btn" onclick="filterSeriesGenre('Thriller',this)">Thriller</button>
+          <button class="filter-btn" onclick="filterSeriesGenre('Sci-Fi',this)">Sci-Fi</button>
+        </div>
+        <div class="catalog-refine-bar">
+          <label>Release year <select id="seriesYearFilter" onchange="filterSeriesYear(this.value)"><option value="All">All years</option></select></label>
+          <label>Language <select id="seriesLanguageFilter" onchange="filterSeriesLanguage(this.value)"><option value="All">All languages</option></select></label>
+          <label>Sort <select id="seriesSortFilter" onchange="sortSeriesPage(this.value)"><option value="newest">Newest first</option><option value="rating">Top rated</option><option value="popular">Most viewed</option><option value="title">A–Z title</option></select></label>
+        </div>
+        <div class="movies-grid" id="allSeriesGrid"></div>
+      </section>
+    </div>
+
+    <!-- TV SHOWS PAGE — separate from Web Series -->
+    <div id="page-shows" class="page">
+      <div class="page-header-banner">
+        <h1>⭐ Shows</h1>
+        <p>Explore TV shows, standalone shows and documentaries — separate from Web Series</p>
+      </div>
+      <section class="section">
+        <div class="movies-grid" id="allShowsGrid"></div>
+      </section>
+    </div>
+
+    <!-- SHORTS PAGE -->
+    <div id="page-shorts" class="page">
+      <div class="page-header-banner">
+        <h1>📱 Shorts</h1>
+        <p>Short videos published by BunnyHub administrators</p>
+      </div>
+      <section class="section">
+        <div class="movies-grid" id="shortsGrid"></div>
+      </section>
+    </div>
+
+    <!-- PUBLIC MUSIC LIBRARY -->
+    <div id="page-songs" class="page">
+      <div class="page-header-banner">
+        <h1>🎵 Songs & Music</h1>
+        <p>Listen to authorised music shared by the BunnyHub team</p>
+      </div>
+      <section class="section">
+        <div class="songs-toolbar">
+          <label for="songLibrarySearch">Search songs</label>
+          <input id="songLibrarySearch" type="search" placeholder="Search title or artist…" autocomplete="off"/>
+        </div>
+        <div class="songs-grid" id="songsLibraryGrid"><p>Loading music library…</p></div>
+      </section>
+    </div>
+
+    <!-- 4. WATCHLIST PAGE -->
+    <div id="page-watchlist" class="page">
+      <div class="page-header-banner">
+        <h1>❤️ My Watchlist</h1>
+        <p>Your saved movies and series ready to watch and download anytime</p>
+      </div>
+      <section class="section">
+        <div class="movies-grid" id="watchlistGrid"></div>
+        <div id="watchlistEmpty" class="empty-state hidden">
+          <div class="empty-icon">🎬</div>
+          <h3>Your watchlist is empty</h3>
+          <p>Explore our library and tap the heart icon to save movies for later!</p>
+          <button class="btn-primary" onclick="showPage('home')" style="margin-top: 16px;">
+            <i class="fas fa-compass"></i> Browse Content
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- 5. REQUEST A MOVIE PAGE -->
+    <div id="page-request" class="page">
+      <div class="page-header-banner">
+        <h1>🎯 Request Content</h1>
+        <p>Can't find your favourite movie or series? Let our team know or ask in Telegram!</p>
+      </div>
+      <section class="section">
+        <div class="request-form-container">
+          <div>
+            <form class="request-form" onsubmit="submitRequest(event)">
+              <div class="form-group">
+                <label>Movie / Series Title *</label>
+                <input type="text" id="reqTitle" placeholder="e.g. Interstellar 2, Sacred Games S3" required autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label>Content Type</label>
+                <select id="reqType">
+                  <option value="Movie">Movie</option>
+                  <option value="Web Series">Web Series</option>
+                  <option value="TV Show">TV Show / Shows</option>
+                  <option value="Documentary">Documentary</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Release Year (if known)</label>
+                <input type="number" id="reqYear" placeholder="2024" min="1900" max="2035" autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label>Preferred Language</label>
+                <input type="text" id="reqLang" placeholder="Hindi, English, Telugu, Tamil, etc." autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label>Additional Notes</label>
+                <textarea id="reqNotes" rows="3" placeholder="Specify director, actors, or required resolution (480p/720p/1080p/4K)..."></textarea>
+              </div>
+              <button type="submit" class="btn-primary full-width">
+                <i class="fas fa-paper-plane"></i> Submit Request
+              </button>
+            </form>
+
+            <!-- Telegram Request Support Banner -->
+            <div class="telegram-callout" style="margin-top: 18px;">
+              <p>⚡ <strong>Want Instant Request Approval & Updates?</strong><br/>Join our Telegram Channel to talk directly with uploaders!</p>
+              <a href="https://t.me/BunnyHub_official" target="_blank" class="btn-telegram-sm telegram-target-link" style="width: 100%; justify-content: center;">
+                <i class="fab fa-telegram-plane"></i> Join Telegram Group
+              </a>
+            </div>
+          </div>
+
+          <div class="request-list-panel">
+            <h3>📋 Recent Requests on This Device</h3>
+            <div id="requestsList"></div>
+            <div class="request-history-panel"><h3>🗂️ My Submitted Requests</h3><div id="myRequestHistory"><p>Sign in to view requests linked to your account.</p></div></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Community roadmap and public changelog remain separate from feedback submission. -->
+    <div id="page-community" class="page">
+      <div class="page-header-banner">
+        <h1>💬 BunnyHub Community</h1>
+        <p>Follow the platform roadmap, vote on approved ideas and see completed improvements.</p>
+      </div>
+      <section class="section">
+        <div class="community-board community-roadmap-page">
+          <div class="section-header"><div><h2>Community Roadmap & Changelog</h2><span>Approved suggestions, work in progress and shipped improvements</span></div><a href="#feedback" onclick="showPage('feedback')">Share feedback <i class="fas fa-arrow-right"></i></a></div>
+          <div id="communityFeedbackList"><p>Loading community roadmap…</p></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Dedicated feedback page: suggestions, bug reports and complaints. -->
+    <div id="page-feedback" class="page">
+      <div class="page-header-banner">
+        <h1>✉️ Feedback & Support</h1>
+        <p>Tell us what is working, report a problem or suggest the next BunnyHub feature.</p>
+      </div>
+      <section class="section feedback-page-shell">
+        <div class="feedback-page-intro">
+          <span class="feedback-page-kicker"><i class="fas fa-comments"></i> YOUR VOICE MATTERS</span>
+          <h2>Help us make BunnyHub better.</h2>
+          <p>Feedback is private until reviewed by the team. Approved ideas can later appear on the Community Roadmap.</p>
+        </div>
+        <form id="communityFeedbackForm" class="admin-form community-submit-card feedback-form-card">
+          <h2>Send feedback</h2>
+          <p>Sign in to submit suggestions, bug reports or complaints. Please include enough detail for the team to investigate.</p>
+          <div class="form-group"><label for="communityCategory">Feedback type</label><select id="communityCategory"><option value="suggestion">Feature suggestion</option><option value="bug">Report a bug</option><option value="complaint">Complaint</option></select></div>
+          <div class="form-group"><label for="communityTitle">Title</label><input type="text" id="communityTitle" maxlength="120" minlength="4" required placeholder="Short summary"/></div>
+          <div class="form-group"><label for="communityDescription">Details</label><textarea id="communityDescription" maxlength="3000" minlength="10" rows="6" required placeholder="Explain the idea or issue clearly…"></textarea></div>
+          <button type="submit" class="btn-primary full-width"><i class="fas fa-paper-plane"></i> Submit feedback</button>
+          <p id="communitySubmitStatus" role="status"></p>
+          <p class="feedback-privacy-note"><i class="fas fa-lock"></i> Your submission is only visible to you and authorised BunnyHub staff until it is approved for the public roadmap.</p>
+        </form>
+      </section>
+    </div>
+
+    <!-- 6. USER PROFILE PAGE -->
+    <div id="page-profile" class="page">
+      <div class="page-header-banner">
+        <h1>👤 My Account</h1>
+        <p>Manage your profile, account preferences and watch records</p>
+      </div>
+      <section class="section">
+        <div class="profile-container">
+          <div class="profile-card">
+            <div class="profile-avatar" id="profileAvatar">U</div>
+            <h2 id="profileName">Username</h2>
+            <p id="profileEmail">user@example.com</p>
+            <div class="profile-stats">
+              <div class="stat"><span id="statWatchlist">0</span><small>Watchlist</small></div>
+              <div class="stat"><span id="statRequests">0</span><small>Requests</small></div>
+              <div class="stat"><span id="statJoined">-</span><small>Joined</small></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 20px;">
+              <button class="btn-primary full-width" onclick="logoutUser()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </button>
+              <button class="btn-delete full-width" onclick="logoutAllDevices()" style="padding: 10px; border-radius: 8px;">
+                <i class="fas fa-shield-alt"></i> Logout from All Devices
+              </button>
+            </div>
+          </div>
+          <div class="profile-watchlist">
+            <h3>⚙️ Account Settings</h3>
+            <form id="userProfileForm" class="admin-form">
+              <div class="form-group"><label for="userProfileName">Display name</label><input id="userProfileName" type="text" maxlength="100" autocomplete="name" required/></div>
+              <button type="submit" class="btn-primary full-width">Save Profile</button>
+            </form>
+            <form id="userPasswordForm" class="admin-form" style="margin-top:16px;">
+              <h3>Change Password</h3>
+              <div class="form-group"><label for="userCurrentPassword">Current password</label><input id="userCurrentPassword" type="password" autocomplete="current-password" required/></div>
+              <div class="form-group"><label for="userNewPassword">New password</label><input id="userNewPassword" type="password" autocomplete="new-password" minlength="8" required/></div>
+              <div class="form-group"><label for="userConfirmPassword">Confirm new password</label><input id="userConfirmPassword" type="password" autocomplete="new-password" minlength="8" required/></div>
+              <button type="submit" class="btn-primary full-width">Update Password</button>
+            </form>
+          </div>
+          <div class="profile-watchlist">
+            <h3>❤️ Saved in Watchlist</h3>
+            <div class="movies-grid" id="profileWatchlistGrid"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- USER AUTHENTICATION -->
+    <div id="page-login" class="page">
+      <div class="auth-container">
+        <div class="auth-box">
+          <div class="auth-brand">🎬 BunnyHub</div>
+          <h1>Welcome Back</h1>
+          <p class="auth-sub">Sign in to sync your watchlist and continue watching across devices.</p>
+          <form id="userLoginForm">
+            <div class="form-group"><label for="userLoginEmail">Email address</label><input id="userLoginEmail" type="email" autocomplete="username" required/></div>
+            <div class="form-group"><label for="userLoginPassword">Password</label><input id="userLoginPassword" type="password" autocomplete="current-password" required/></div>
+            <button type="submit" class="btn-primary full-width">Sign In</button>
+          </form>
+          <p class="auth-sub"><a href="#" id="forgotPasswordLink">Forgot password?</a></p>
+          <p class="auth-sub">New to BunnyHub? <a href="#" onclick="showPage('register');return false;">Create an account</a></p>
+          <button type="button" class="btn-download full-width" onclick="showPage('home')">Continue as Guest</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-reset-password" class="page">
+      <div class="auth-container">
+        <div class="auth-box">
+          <div class="auth-brand">🎬 BunnyHub</div>
+          <h1>Set a New Password</h1>
+          <p class="auth-sub">Choose a new secure password for your account.</p>
+          <form id="userResetPasswordForm">
+            <div class="form-group"><label for="resetNewPassword">New password</label><input id="resetNewPassword" type="password" autocomplete="new-password" minlength="8" required/></div>
+            <div class="form-group"><label for="resetConfirmPassword">Confirm new password</label><input id="resetConfirmPassword" type="password" autocomplete="new-password" minlength="8" required/></div>
+            <button type="submit" class="btn-primary full-width">Save New Password</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-register" class="page">
+      <div class="auth-container">
+        <div class="auth-box">
+          <div class="auth-brand">🎬 BunnyHub</div>
+          <h1>Create Your Account</h1>
+          <p class="auth-sub">Your account keeps your watchlist and viewing progress synced.</p>
+          <form id="userRegisterForm">
+            <div class="form-group"><label for="userRegisterName">Full name</label><input id="userRegisterName" type="text" autocomplete="name" maxlength="100" required/></div>
+            <div class="form-group"><label for="userRegisterEmail">Email address</label><input id="userRegisterEmail" type="email" autocomplete="email" required/></div>
+            <div class="form-group"><label for="userRegisterPassword">Password</label><input id="userRegisterPassword" type="password" autocomplete="new-password" minlength="8" required/><small>Use at least 8 characters.</small></div>
+            <div class="form-group"><label for="userRegisterConfirm">Confirm password</label><input id="userRegisterConfirm" type="password" autocomplete="new-password" minlength="8" required/></div>
+            <button type="submit" class="btn-primary full-width">Create Account</button>
+          </form>
+          <p class="auth-sub">Already registered? <a href="#" onclick="showPage('login');return false;">Sign in</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. RESTRICTED ADMIN LOGIN PAGE -->
+    <!-- Accessible strictly via #control-center or Ctrl+Shift+A; never linked in public navbar -->
+    <div id="page-admin-login" class="page">
+      <div class="admin-login-shell">
+        <aside class="admin-login-aside">
+          <span class="admin-login-kicker"><i class="fas fa-sparkles"></i> BunnyHub · CONTROL CENTER</span>
+          <h1>Your platform,<br><span>in one place.</span></h1>
+          <p>Manage the catalog, review community activity, and keep your media library organised.</p>
+          <div class="admin-login-highlights">
+            <div><i class="fas fa-film"></i><span><strong>Catalog</strong><small>Content, seasons and media</small></span></div>
+            <div><i class="fas fa-cloud-arrow-up"></i><span><strong>Storage</strong><small>Private media and quality sources</small></span></div>
+            <div><i class="fas fa-shield-halved"></i><span><strong>Access</strong><small>Role-verified sign-in</small></span></div>
+          </div>
+          <div class="admin-login-secure"><i class="fas fa-lock"></i> Sign-in is verified by Supabase Auth and your database staff role.</div>
+        </aside>
+        <section class="admin-auth-box">
+          <div class="admin-auth-heading">
+            <span class="admin-auth-icon"><i class="fas fa-user-shield"></i></span>
+            <div><span class="admin-login-kicker">SECURE SIGN IN</span><h2>Welcome back</h2></div>
+          </div>
+          <p class="auth-sub">Owner: use your admin username. Staff: use your authorised account email.</p>
+          <form id="adminLoginForm" onsubmit="adminLogin(event)">
+            <div class="form-group">
+              <label for="adminUser">Owner username or staff email</label>
+              <input type="text" id="adminUser" placeholder="admin or admin email" autocomplete="username" required/>
+            </div>
+            <div class="form-group">
+              <label for="adminPass">Password</label>
+              <div class="input-group">
+                <input type="password" id="adminPass" placeholder="Enter your password" autocomplete="current-password" required/>
+                <button type="button" onclick="togglePassword('adminPass')" aria-label="Show or hide password"><i class="fas fa-eye"></i></button>
+              </div>
+            </div>
+            <button type="submit" id="adminSubmitBtn" class="btn-admin-login full-width"><i class="fas fa-arrow-right-to-bracket"></i> Secure sign in</button>
+          </form>
+          <div class="admin-auth-foot"><i class="fas fa-circle-info"></i> Only approved Admin, Sub-admin, Content Editor and Moderator accounts can access this panel.</div>
+        </section>
+      </div>
+    </div>
+
+    <!-- 10. ADMIN DASHBOARD & CONTROL CENTER -->
+    <div id="page-admin" class="page">
+      <div class="admin-page-toolbar" role="region" aria-label="Control Center navigation">
+        <button class="admin-back-home" type="button" onclick="showPage('home');window.scrollTo(0,0);">
+          <i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to Website</span>
+        </button>
+        <span class="admin-page-context"><i class="fas fa-shield-halved" aria-hidden="true"></i> Control Center</span>
+      </div>
+      <div class="admin-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+          <div class="admin-logo">
+            <span>⚙️</span> Control Center
+            <div><span id="adminRoleBadge" class="admin-role-badge">Admin</span></div>
+          </div>
+          <nav class="admin-nav">
+            <button class="admin-nav-btn active" onclick="adminTab('dashboard',this)">
+              <i class="fas fa-tachometer-alt"></i> Dashboard
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('add-movie',this)">
+              <i class="fas fa-plus-circle"></i> Add Content
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('add-shorts',this)"><i class="fas fa-video"></i> Upload Shorts</button>
+            <button class="admin-nav-btn" onclick="adminTab('manage',this)">
+              <i class="fas fa-film"></i> Manage Catalog
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('posts',this)">
+              <i class="fas fa-photo-video"></i> Posts
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('episodes',this)">
+              <i class="fas fa-layer-group"></i> Seasons & Episodes
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('drive-import',this)">
+              <i class="fab fa-google-drive"></i> Drive Import
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('storage-manager',this)">
+              <i class="fas fa-cloud"></i> Storage Manager
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('requests-admin',this)">
+              <i class="fas fa-inbox"></i> User Requests
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('reports',this)">
+              <i class="fas fa-chart-bar"></i> Analytics & Reports
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('community-admin',this)">
+              <i class="fas fa-comments"></i> Community Feedback
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('users-admin',this)">
+              <i class="fas fa-users-cog"></i> User Management
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('team-admin',this)">
+              <i class="fas fa-user-shield"></i> Admins & Password
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('settings',this)">
+              <i class="fas fa-sliders-h"></i> Platform Settings
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('categories',this)">
+              <i class="fas fa-tags"></i> Category Manager
+            </button>
+            <button class="admin-nav-btn" onclick="adminTab('songs',this)">
+              <i class="fas fa-music"></i> Song Management
+            </button>
+            <button id="vhLoginActivityNav" class="admin-nav-btn" data-vh-roles="admin" onclick="adminTab('login-activity',this)"><i class="fas fa-shield-halved"></i> Security & Login Activity</button>
+            <button class="admin-nav-btn logout-btn" onclick="adminLogout()">
+              <i class="fas fa-sign-out-alt"></i> Exit Admin
+            </button>
+          </nav>
+        </aside>
+
+        <!-- Admin Workspace Main Area -->
+        <main class="admin-main">
+          
+          <div id="tab-login-activity" class="admin-tab" data-vh-roles="admin">
+            <h2>🔐 Security & Login Activity</h2>
+            <p>Guest visits, user sign-ins, Admin attempts and blocked access. IP addresses and account details are visible only to the Main Admin. Raw IP records are retained for up to 90 days; passwords, OTPs and session tokens are never stored here.</p>
+            <div class="vh-activity-toolbar">
+              <select id="vhActivityFilter" aria-label="Filter security activity">
+                <option value="all">All activity</option>
+                <option value="logins">Sign-ins and logouts</option>
+                <option value="visits">Guest and signed-in visits</option>
+                <option value="security">Failed, blocked and denied</option>
+              </select>
+              <input id="vhActivitySearch" type="search" placeholder="Search IP, account, browser or page…" aria-label="Search security activity"/>
+              <button id="vhLoginActivityRefresh" type="button"><i class="fas fa-rotate"></i> Refresh</button>
+              <button id="vhLoginActivityMore" type="button" hidden>Load older events</button>
+              <span id="vhActivityTotal">Not loaded</span>
+              <small id="vhActivityRefreshed"></small>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead><tr><th>Time</th><th>Activity</th><th>Account</th><th>Role</th><th>IP Address</th><th>Browser / Device</th><th>Page</th></tr></thead>
+                <tbody id="vhLoginActivityRows"><tr><td colspan="7">Open this tab to load security activity.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 1: Dashboard Overview -->
+          <div id="tab-dashboard" class="admin-tab active">
+            <h2>📊 Dashboard & Performance Overview</h2>
+            <div class="stats-grid">
+              <div class="stat-card blue">
+                <i class="fas fa-film"></i>
+                <span id="totalMovies">0</span>
+                <small>Total Movies</small>
+              </div>
+              <div class="stat-card purple">
+                <i class="fas fa-tv"></i>
+                <span id="totalSeries">0</span>
+                <small>Web Series</small>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-film"></i>
+                <span id="totalShorts">0</span>
+                <small>Shorts</small>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-music"></i>
+                <span id="totalSongs">—</span>
+                <small>Published Songs</small>
+              </div>
+              <div class="stat-card green">
+                <i class="fas fa-users"></i>
+                <span id="totalUsers">0</span>
+                <small>Registered Users</small>
+              </div>
+              <div class="stat-card orange">
+                <i class="fas fa-eye"></i>
+                <span id="totalViews">—</span>
+                <small>Tracked Events (page and content activity)</small>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-inbox"></i>
+                <span id="adminRequestCount">—</span>
+                <small>Total Content Requests</small>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-heart"></i>
+                <span id="pendingDonations">—</span>
+                <small>Pending Donations</small>
+              </div>
+            </div>
+
+            <div class="admin-recent" style="margin-top: 30px;">
+              <h3>🕐 Recently Added Catalog Content</h3>
+              <div id="recentMoviesAdmin"></div>
+            </div>
+          </div>
+
+          <!-- TAB 2: Add Movie / Series (With Multi-Resolution Downloads & Telegram Integration) -->
+          <div id="tab-add-movie" class="admin-tab">
+            <h2>➕ Add New Movie / Web Series / Show</h2>
+            <form class="admin-form" onsubmit="addMovie(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Title *</label>
+                  <input type="text" id="addTitle" placeholder="e.g. Inception" required autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                  <label>Content Type *</label>
+                  <select id="addType">
+                    <option value="Movie">Movie</option>
+                    <option value="Web Series">Web Series</option>
+                    <option value="TV Show">TV Show / Shows</option>
+                    <option value="Documentary">Documentary</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Primary Genre *</label>
+                  <select id="addGenre">
+                    <option>Action</option>
+                    <option>Drama</option>
+                    <option>Comedy</option>
+                    <option>Horror</option>
+                    <option>Sci-Fi</option>
+                    <option>Romance</option>
+                    <option>Thriller</option>
+                    <option>Animation</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Language</label>
+                  <input type="text" id="addLang" placeholder="Hindi, English (Bollywood/Hollywood/South)" autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                  <label for="addIndustry">Industry</label>
+                  <select id="addIndustry">
+                    <option value="All">Other / Not specified</option>
+                    <option value="Bollywood">Bollywood</option>
+                    <option value="Hollywood">Hollywood</option>
+                    <option value="South">South Indian</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Release Year</label>
+                  <input type="number" id="addYear" placeholder="2024" min="1900" max="2035" autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                  <label>Rating (1.0 to 10.0)</label>
+                  <input type="number" id="addRating" placeholder="8.5" step="0.1" min="1" max="10" autocomplete="off"/>
+                </div>
+              </div>
+
+              <div class="form-group feature-choice">
+                <label><input type="checkbox" id="addFeatured"/> Feature this title on the Homepage</label>
+              </div>
+
+              <div class="form-group">
+                <label>Poster Image URL</label>
+                <input type="url" id="addPoster" placeholder="https://... (Direct poster image link)" autocomplete="off"/>
+              </div>
+
+              <div class="form-group">
+                <label>Main Video Stream URL / Drive Link *</label>
+                <input type="url" id="addVideo" placeholder="Direct URL or PixelDrain share link (https://pixeldrain.com/u/FILE_ID)" autocomplete="off"/>
+                <small style="color:var(--text-muted)">Or upload a video file below. Only content you own or are licensed to publish.</small>
+                <label for="addStorageProvider">Upload / Link Storage</label>
+                <select id="addStorageProvider">
+                  <option value="backblaze_b2">Backblaze B2 (Default — private cloud upload)</option>
+                  <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload — server setup required)</option>
+                  <option value="supabase">Supabase (legacy / existing uploads)</option>
+                  <option value="pixeldrain">PixelDrain (experimental · API key + India access check required)</option>
+                  <option value="terabox">TeraBox (authorised URL only — API connector pending)</option>
+                  <option value="mega">MEGA (authorised URL only — API connector pending)</option>
+                  <option value="degoo">Degoo (authorised URL only — API connector pending)</option>
+                  <option value="google_drive">Google Drive (public shared video link import; no B2 copy)</option>
+                  <option value="mediafire">MediaFire (authorised URL only — API connector pending)</option>
+                  <option value="pcloud">pCloud (authorised URL only — API connector pending)</option>
+                  <option value="box">Box (authorised URL only — API connector pending)</option>
+                  <option value="icedrive">Icedrive (authorised URL only — API connector pending)</option>
+                  <option value="koofr">Koofr (authorised URL only — API connector pending)</option>
+                  <option value="internxt">Internxt (authorised URL only — API connector pending)</option>
+                  <option value="telegram">Telegram (authorised post link only)</option>
+                </select>
+                <input type="file" id="addVideoFile" accept="video/*" autocomplete="off"/>
+                <small class="pixeldrain-admin-note"><i class="fas fa-cloud"></i> Experimental only: PixelDrain requires a server-side API key and its own site currently lists India as a blocked location. Free shared files can expire after 60 days without qualifying downloads, and hotlink playback requires Pro; CAPTCHA protection can appear. Prefer Backblaze B2 / R2 for BunnyHub movie delivery. In-app PixelDrain uploads are capped at 90 MiB by Cloudflare's request limit.</small>
+              </div>
+
+              <!-- Multi-Resolution Download Link Inputs -->
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border); padding: 16px; border-radius: var(--radius-sm); margin: 16px 0;">
+                <h4 style="margin-bottom: 12px; color: var(--accent);"><i class="fas fa-download"></i> Resolution Specific Download Links (Optional)</h4>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>480p Download Link (Mobile SD)</label>
+                    <input type="url" id="addDl480" placeholder="Direct link or PixelDrain share URL" autocomplete="off"/>
+                  </div>
+                  <div class="form-group">
+                    <label>720p Download Link (HD)</label>
+                    <input type="url" id="addDl720" placeholder="https://drive.google.com/... or direct link" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>1080p Download Link (Full HD)</label>
+                    <input type="url" id="addDl1080" placeholder="https://drive.google.com/... or direct link" autocomplete="off"/>
+                  </div>
+                  <div class="form-group">
+                    <label>4K UHD Download Link</label>
+                    <input type="url" id="addDl4k" placeholder="https://drive.google.com/... or direct link" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label><i class="fab fa-telegram-plane" style="color: #229ED9;"></i> Telegram Direct Post Link (Optional)</label>
+                  <input type="url" id="addTgPost" placeholder="https://t.me/yourchannel/123" autocomplete="off"/>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Official Trailer URL (YouTube)</label>
+                <input type="url" id="addTrailer" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off"/>
+              </div>
+
+              <!-- Screenshots for download preview carousel (Admin Only) -->
+              <div class="form-group">
+                <label>🖼️ Screenshot / Scene Preview URLs <small style="color:var(--text-muted)">(Comma separated — shown in download modal carousel)</small></label>
+                <input type="text" id="addScreenshots" placeholder="https://img1.com/shot.jpg, https://img2.com/shot.jpg, ..." autocomplete="off"/>
+              </div>
+
+              <div class="form-group">
+                <label>Synopsis & Description</label>
+                <textarea id="addDesc" rows="4" placeholder="Enter movie story synopsis, plot outline..."></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Cast (comma separated)</label>
+                  <input type="text" id="addCast" placeholder="Leonardo DiCaprio, Joseph Gordon-Levitt" autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                  <label>Director</label>
+                  <input type="text" id="addDirector" placeholder="Christopher Nolan" autocomplete="off"/>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Duration / Episodes Info</label>
+                <input type="text" id="addDuration" placeholder="2h 28m or S1 • 8 Episodes" autocomplete="off"/>
+              </div>
+
+              <button type="submit" class="btn-primary full-width" style="margin-top: 10px;">
+                <i class="fas fa-save"></i> Publish to BunnyHub Catalog
+              </button>
+            </form>
+          </div>
+
+          <!-- TAB: Upload Shorts -->
+          <div id="tab-add-shorts" class="admin-tab">
+            <h2>📱 Upload & Publish Shorts</h2>
+            <p style="color:var(--text-muted);margin-bottom:18px;">Only upload original or properly licensed short videos.</p>
+            <form class="admin-form" onsubmit="publishShort(event)">
+              <div class="form-group">
+                <label>Short Title *</label>
+                <input type="text" id="shortTitle" placeholder="Enter short video title" required autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label>Video File *</label>
+                <label for="shortStorageProvider">Upload / Link Storage</label>
+                <select id="shortStorageProvider">
+                  <option value="backblaze_b2">Backblaze B2 (Default — private cloud upload)</option>
+                  <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload — server setup required)</option>
+                  <option value="supabase">Supabase (legacy / existing uploads)</option>
+                  <option value="terabox">TeraBox (authorised URL only — API connector pending)</option>
+                  <option value="mega">MEGA (authorised URL only — API connector pending)</option>
+                  <option value="degoo">Degoo (authorised URL only — API connector pending)</option>
+                  <option value="google_drive">Google Drive (public shared video link import; no B2 copy)</option>
+                  <option value="mediafire">MediaFire (authorised URL only — API connector pending)</option>
+                  <option value="pcloud">pCloud (authorised URL only — API connector pending)</option>
+                  <option value="box">Box (authorised URL only — API connector pending)</option>
+                  <option value="icedrive">Icedrive (authorised URL only — API connector pending)</option>
+                  <option value="koofr">Koofr (authorised URL only — API connector pending)</option>
+                  <option value="internxt">Internxt (authorised URL only — API connector pending)</option>
+                  <option value="telegram">Telegram (authorised post link only)</option>
+                </select>
+                <input type="file" id="shortVideoFile" accept="video/*" autocomplete="off"/>
+                <label for="shortVideoUrl">Or authorised video / post URL</label>
+                <input type="url" id="shortVideoUrl" placeholder="https://..." autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label>Description (Optional)</label>
+                <textarea id="shortDesc" rows="3" placeholder="Add a short description"></textarea>
+              </div>
+              <div class="form-group feature-choice">
+                <label><input type="checkbox" id="shortFeatured"/> Feature this Short on the Homepage</label>
+              </div>
+              <button type="submit" class="btn-primary full-width"><i class="fas fa-cloud-upload-alt"></i> Publish Short</button>
+            </form>
+          </div>
+
+          <!-- TAB 3: Manage Content -->
+          <div id="tab-manage" class="admin-tab">
+            <h2>🎬 Manage Catalog Content</h2>
+            <div class="admin-toolbar">
+              <input type="text" id="manageSearch" placeholder="Filter by title, genre, language..." oninput="filterManageList(this.value)" autocomplete="off"/>
+            </div>
+            <div id="manageList" class="manage-list"></div>
+          </div>
+
+          <!-- Separate social-style Posts workspace; does not publish to Movie Catalog. -->
+          <div id="tab-posts" class="admin-tab">
+            <h2>📸 Posts Studio</h2>
+            <p>Create a video, song or photo post. New posts are saved privately as drafts and never enter the Movie Catalog.</p>
+            <form class="admin-form" id="vhPostForm">
+              <div class="form-row">
+                <div class="form-group"><label for="vhPostType">Post type *</label><select id="vhPostType" required><option value="video">Video</option><option value="song">Song / Audio</option><option value="photo">Photo</option></select></div>
+                <div class="form-group"><label for="vhPostCategory">Category</label><input id="vhPostCategory" maxlength="80" placeholder="e.g. Music, Behind the scenes"/></div>
+              </div>
+              <div class="form-group"><label for="vhPostTitle">Title *</label><input id="vhPostTitle" maxlength="180" required placeholder="Enter post title"/></div>
+              <div class="form-group"><label for="vhPostDescription">Description</label><textarea id="vhPostDescription" rows="4" maxlength="5000" placeholder="Write a description..."></textarea></div>
+              <div class="form-row">
+                <div class="form-group"><label for="vhPostProvider">Storage</label><select id="vhPostProvider"><option value="backblaze_b2">Backblaze B2</option><option value="cloudflare_r2">Cloudflare R2</option></select></div>
+                <div class="form-group"><label for="vhPostFile">Choose media file *</label><input id="vhPostFile" type="file" required accept="video/*"/></div>
+              </div>
+              <p id="vhPostFileHint" class="form-hint">Video up to 5 GB. Audio up to 1 GB. Photo up to 15 MB.</p>
+              <div class="form-group"><label for="vhPostThumbnail">Thumbnail / cover image (optional)</label><input id="vhPostThumbnail" type="file" accept="image/jpeg,image/png,image/webp"/></div>
+              <div class="form-row">
+                <button class="btn btn-primary" type="submit" id="vhPostSaveBtn">Save as Private Draft</button>
+                <button class="btn btn-secondary" type="button" id="vhPostResetBtn">Clear</button>
+              </div>
+              <p id="vhPostStatus" role="status" aria-live="polite"></p>
+            </form>
+            <h3>Saved Posts</h3>
+            <div id="vhPostsList" class="manage-list"><p>Loading saved posts…</p></div>
+          </div>
+
+          <!-- TAB 4: Series Seasons & Episodes -->
+          <div id="tab-episodes" class="admin-tab">
+            <h2>📺 Seasons & Episodes Manager</h2>
+            <p>Publish episodes under an existing Web Series. Episode videos use the same private B2/R2/Supabase media pipeline as movies.</p>
+            <form class="admin-form" id="episodeForm" onsubmit="publishEpisode(event)">
+              <div class="form-row">
+                <div class="form-group"><label for="episodeSeriesId">Web Series *</label><select id="episodeSeriesId" required><option value="">Loading series…</option></select></div>
+                <div class="form-group"><label for="episodeStorageProvider">Storage Provider</label><select id="episodeStorageProvider"><option value="backblaze_b2">Backblaze B2</option><option value="cloudflare_r2">Cloudflare R2</option><option value="supabase">Supabase legacy</option><option value="direct">Authorised direct URL</option></select></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label for="episodeSeasonNumber">Season Number *</label><input id="episodeSeasonNumber" type="number" min="1" max="100" value="1" required/></div>
+                <div class="form-group"><label for="episodeNumber">Episode Number *</label><input id="episodeNumber" type="number" min="1" max="500" required/></div>
+                <div class="form-group"><label for="episodeReleaseYear">Release Year</label><input id="episodeReleaseYear" type="number" min="1888" max="2100" placeholder="2026"/></div>
+              </div>
+              <div class="form-group"><label for="episodeTitle">Episode Title *</label><input id="episodeTitle" maxlength="250" required placeholder="e.g. The Beginning"/></div>
+              <div class="form-row">
+                <div class="form-group"><label for="episodeDuration">Duration</label><input id="episodeDuration" maxlength="40" placeholder="45 min"/></div>
+                <div class="form-group"><label for="episodePoster">Episode Poster URL (optional)</label><input id="episodePoster" type="url" placeholder="https://..."/></div>
+                <div class="form-group"><label for="episodeLanguage">Source Language</label><input id="episodeLanguage" maxlength="40" placeholder="Hindi"/></div>
+              </div>
+              <div class="form-group"><label for="episodeDescription">Episode Description</label><textarea id="episodeDescription" rows="3" maxlength="3000"></textarea></div>
+              <div class="form-row">
+                <div class="form-group"><label for="episodeResolution">Primary Video Quality</label><select id="episodeResolution"><option value="">Original / unspecified</option><option>480p</option><option>720p</option><option>1080p</option><option value="2k">2K</option><option value="4k">4K</option><option value="8k">8K</option></select></div>
+                <div class="form-group"><label for="episodeVideoFile">Upload Episode Video</label><input id="episodeVideoFile" type="file" accept="video/*"/><small>Direct uploads: Backblaze B2, Cloudflare R2 or legacy Supabase. Maximum 5 GB per file.</small></div>
+              </div>
+              <div class="form-group"><label for="episodeVideoUrl">Or authorised primary video URL</label><input id="episodeVideoUrl" type="url" placeholder="https://..."/></div>
+              <details class="episode-extra-quality"><summary>Add alternate quality links (optional)</summary>
+                <div class="form-row"><div class="form-group"><label for="episode480Url">480p URL</label><input id="episode480Url" type="url" placeholder="https://..."/></div><div class="form-group"><label for="episode720Url">720p URL</label><input id="episode720Url" type="url" placeholder="https://..."/></div></div>
+                <div class="form-row"><div class="form-group"><label for="episode1080Url">1080p URL</label><input id="episode1080Url" type="url" placeholder="https://..."/></div><div class="form-group"><label for="episode4kUrl">4K URL</label><input id="episode4kUrl" type="url" placeholder="https://..."/></div></div>
+              </details>
+              <button type="submit" class="btn-primary full-width"><i class="fas fa-cloud-upload-alt"></i> Publish Episode</button>
+              <p id="episodePublishStatus" role="status"></p>
+            </form>
+            <h3 style="margin:24px 0 12px;">Published Episodes</h3>
+            <div id="episodeManageList" class="manage-list">Choose a series to view its episodes.</div>
+          </div>
+
+          <!-- TAB 4: Google Drive Import -->
+          <div id="tab-drive-import" class="admin-tab">
+            <h2>☁️ Google Drive Direct Import</h2>
+            <div class="drive-import-box">
+              <div class="drive-icon"><i class="fab fa-google-drive"></i></div>
+              <h3>Import Media from Google Drive</h3>
+              <p>Add an authorised, publicly shared Google Drive video to the catalog. The original file stays in Drive; it is not copied into B2.</p>
+              
+              <div class="form-group">
+                <label>Google Drive Video File Link *</label>
+                <input type="url" id="driveLink" placeholder="https://drive.google.com/file/d/.../view" autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label>Title to Assign *</label>
+                <input type="text" id="driveName" placeholder="Movie or Show Title" autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label>Content Type</label>
+                <select id="driveType">
+                  <option value="Movie">Movie</option>
+                  <option value="Web Series">Web Series</option>
+                </select>
+              </div>
+              <p class="drive-import-note">Setup required: enable Google Drive API in Google Cloud and add <code>GOOGLE_DRIVE_API_KEY</code> as a Cloudflare Pages secret (restrict it to the Drive API; never expose it in browser code). The video must be set to <strong>Anyone with the link · Viewer</strong>. Import only videos you own or are licensed to publish. Individual video files only; folders and private Drive files are not supported by this link-based connector.</p>
+              <button class="btn-primary full-width" onclick="importFromDrive()">
+                <i class="fab fa-google-drive"></i> Verify Public Video & Add to Catalog
+              </button>
+              <div id="driveImportLog" class="drive-log"></div>
+            </div>
+          </div>
+
+          <!-- STORAGE MANAGER -->
+          <div id="tab-storage-manager" class="admin-tab">
+            <h2>☁️ Storage Manager</h2>
+            <p style="color:var(--text-muted);margin-bottom:18px;">Choose the default provider for new uploads. You can override it on each Movie, Series or Short upload.</p>
+            <form class="admin-form" onsubmit="saveStorageSettings(event)">
+              <div class="form-group">
+                <label for="defaultStorageProvider">Default Storage Provider</label>
+                <select id="defaultStorageProvider">
+                  <option value="backblaze_b2">Backblaze B2 (recommended default)</option>
+                  <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload — server setup required)</option>
+                  <option value="supabase">Supabase (legacy / existing uploads)</option>
+                  <option value="terabox">TeraBox</option>
+                  <option value="mega">MEGA</option>
+                  <option value="degoo">Degoo</option>
+                  <option value="google_drive">Google Drive</option>
+                  <option value="mediafire">MediaFire</option>
+                  <option value="pcloud">pCloud</option>
+                  <option value="box">Box</option>
+                  <option value="icedrive">Icedrive</option>
+                  <option value="koofr">Koofr</option>
+                  <option value="internxt">Internxt</option>
+                  <option value="telegram">Telegram</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Default Storage</button>
+              <p id="storageSettingsStatus" role="status" style="color:var(--text-muted);margin-top:12px;">Loading storage settings…</p>
+            </form>
+            <div class="admin-form" style="margin-top:22px;">
+              <h3>Provider availability</h3>
+              <p><strong>Backblaze B2:</strong> Active private S3-compatible upload, signed playback access and server-side deletion for Movie, Series, Short and Song audio files. Requires the B2 secrets in Cloudflare Pages.</p>
+              <p><strong>Cloudflare R2:</strong> Direct S3-compatible upload, signed playback and deletion are supported for media and song audio when R2 secrets are configured.</p>
+              <p><strong>Supabase:</strong> Retained for database, authentication and legacy private media; B2 is the preferred default for new video uploads.</p>
+              <p><strong>Google Drive:</strong> Public shared video-file verification and catalog linking are supported when GOOGLE_DRIVE_API_KEY is configured. Original files remain in Drive; importing them into B2 requires a separate authorised transfer connector.</p>
+              <p><strong>Box, pCloud, Koofr:</strong> Official API options exist; OAuth credentials and server-side upload integration are still required.</p>
+              <p><strong>TeraBox:</strong> Official Open Platform exists; application approval and server-side OAuth credentials are required.</p>
+              <p><strong>MEGA:</strong> Third-party SDK options exist; no website connector is configured.</p>
+              <p><strong>MediaFire:</strong> API credentials and a tested upload connector are still required.</p>
+              <p><strong>Degoo, Icedrive, Internxt:</strong> Manual authorised links only until a supported integration is verified.</p>
+              <p><strong>Telegram:</strong> Channel/post links can be saved; bot upload automation is not connected yet.</p>
+              <p style="color:var(--text-muted);font-size:.88rem;">Direct file uploads are currently implemented for Backblaze B2, Cloudflare R2 and legacy Supabase Storage. Other listed providers are link-only until their official server-side connectors and credentials are configured. Never paste passwords, API tokens or private keys into this page.</p>
+            </div>
+          </div>
+
+          <!-- TAB 5: User Requests Management -->
+          <div id="tab-requests-admin" class="admin-tab">
+            <h2>📥 User Movie & Show Requests</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Review user submissions, approve for ingestion or decline requests.</p>
+            <div id="adminRequestsList" class="admin-requests"></div>
+          </div>
+
+          <!-- TAB 6: Analytics & Reports -->
+          <div id="tab-reports" class="admin-tab">
+            <h2>📊 Platform Reports & Insights</h2>
+            <div class="reports-grid">
+              <div class="report-card">
+                <h4>📈 Most Watched Content</h4>
+                <div id="topViewedList"></div>
+              </div>
+              <div class="report-card">
+                <h4>⬇️ Most Download Link Clicks</h4>
+                <div id="topDownloadedList"></div>
+              </div>
+              <div class="report-card">
+                <h4>🔥 Genre Popularity Index</h4>
+                <div id="genreChart" class="bar-chart"></div>
+              </div>
+              <div class="report-card">
+                <h4>📅 Monthly Traffic Activity</h4>
+                <div id="monthlyChart" class="bar-chart"></div>
+              </div>
+              <div class="report-card vh-adsense-report">
+                <h4>💰 AdSense Revenue (Live API)</h4>
+                <p>Real earnings from Google AdSense. No estimated or invented values are shown.</p>
+                <div class="adsense-report-controls"><select id="adsenseRange" aria-label="AdSense report period"><option value="LAST_7_DAYS">Last 7 days</option><option value="LAST_30_DAYS">Last 30 days</option><option value="THIS_MONTH">This month</option><option value="LAST_MONTH">Last month</option></select><button type="button" class="btn-primary" onclick="loadAdSenseRevenue()">Refresh report</button></div>
+                <div id="adsenseRevenueList" role="status">For earnings reports, set ADSENSE_CLIENT_ID, ADSENSE_CLIENT_SECRET, ADSENSE_REFRESH_TOKEN and ADSENSE_ACCOUNT_ID (accounts/pub-...) in Cloudflare Pages. Enable the AdSense Management API in Google Cloud.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Community feedback moderation -->
+          <div id="tab-community-admin" class="admin-tab">
+            <h2>💬 Community Feedback Moderation</h2>
+            <p>Review incoming suggestions, bugs and complaints. Only approved roadmap items are visible to the public.</p>
+            <div id="adminFeedbackList">Open this tab to load feedback.</div>
+          </div>
+
+          <!-- TAB 7: User Management -->
+          <div id="tab-users-admin" class="admin-tab">
+            <h2>👥 Registered Users & Privacy Management</h2>
+            <p style="color: var(--text-muted); margin-bottom: 16px;">
+              <i class="fas fa-lock" style="color: var(--warning);"></i> 
+              <strong>Data Privacy:</strong> This dashboard currently shows profile name, role, and join date only. Email addresses and phone numbers are not stored in the profiles table and are not displayed here.
+            </p>
+            <div class="admin-toolbar">
+              <input type="text" id="userManageSearch" placeholder="Search user by name, profile ID, or role..." oninput="filterUsersList(this.value)" autocomplete="off"/>
+            </div>
+            <div class="user-table-container">
+              <table class="user-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>User Profile</th>
+                    <th>Profile ID</th>
+                    <th>Email</th>
+                    <th>Phone (Country Code)</th>
+                    <th>Joined Date</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tbody id="adminUsersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 8: Admins, Sub-Admins & Password Management -->
+          <div id="tab-team-admin" class="admin-tab">
+            <h2>🛡️ Admin Credentials & Sub-Admin Roles</h2>
+            
+            <!-- Section 1: Change Password & Username Form -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 28px;">
+              <h3 style="margin-bottom: 6px;"><i class="fas fa-key" style="color: var(--accent);"></i> Change Admin Credentials</h3>
+              <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Change your secure admin password. Login email is managed in Supabase; it cannot be changed here.</p>
+              
+              <form class="admin-form" onsubmit="updateAdminCredentials(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Current Password *</label>
+                    <input type="password" id="changeCurrPass" placeholder="Enter current password" required autocomplete="current-password"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Admin Login</label>
+                    <input type="text" value="Managed securely by Supabase" disabled autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>New Password * (Min 12 chars)</label>
+                    <input type="password" id="changeNewPass" placeholder="New strong password" required autocomplete="new-password"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Confirm New Password *</label>
+                    <input type="password" id="changeConfirmPass" placeholder="Re-enter new password" required autocomplete="new-password"/>
+                  </div>
+                </div>
+                <button type="submit" class="btn-primary full-width" style="margin-top: 8px;">
+                  <i class="fas fa-check-circle"></i> Save New Credentials
+                </button>
+              </form>
+            </div>
+
+            <!-- Section 2: Sub-Admin setup placeholder -->
+            <div id="superAdminOnlySection" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
+              <h3 style="margin-bottom: 6px;"><i class="fas fa-users-cog" style="color: var(--accent2);"></i> Staff Team Management</h3>
+              <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Create staff accounts securely through the server-side Supabase Admin API. Choose only the permissions each team member needs.</p>
+
+              <form class="admin-form" onsubmit="addSubAdmin(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Staff Member Name *</label>
+                    <input type="text" id="subName" placeholder="e.g. Vikas Kumar" required autocomplete="off"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Staff Email *</label>
+                    <input type="email" id="subEmail" placeholder="staff@example.com" required autocomplete="email"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Staff Account Password *</label>
+                    <input type="password" id="subPassword" placeholder="At least 12 characters" minlength="12" required autocomplete="new-password"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Assigned Role *</label>
+                    <select id="subRole">
+                      <option value="sub_admin">Sub-Admin (Catalog & Requests)</option>
+                      <option value="content_editor">Content Editor (Movies & Series)</option>
+                      <option value="moderator">Moderator (Requests Only)</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="btn-primary full-width">
+                  <i class="fas fa-user-plus"></i> Create Staff Account
+                </button>
+              </form>
+
+              <div style="margin-top: 26px;">
+                <h4>Staff Accounts & Permissions</h4>
+                <div id="subAdminsList" class="subadmin-grid"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 10: Category Manager (Admin Only) -->
+          <div id="tab-categories" class="admin-tab">
+            <h2>🏷️ Category Manager</h2>
+            <div class="tab-categories-form">
+              <h3 style="margin-bottom:14px;"><i class="fas fa-plus-circle" style="color:var(--accent);"></i> Add New Category</h3>
+              <form class="admin-form" onsubmit="addCategory(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Category Name *</label>
+                    <input type="text" id="catName" placeholder="e.g. Bollywood, South Indian, Anime" required autocomplete="off"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="catDesc" placeholder="Short description of the category" autocomplete="off"/>
+                  </div>
+                </div>
+                <button type="submit" class="btn-primary full-width"><i class="fas fa-save"></i> Save Category</button>
+              </form>
+            </div>
+            <h3 style="margin:0 0 14px;">📋 Existing Categories</h3>
+            <div id="categoriesList" class="manage-list"></div>
+          </div>
+
+          <!-- TAB 11: Song / Music Management (Admin Only) -->
+          <div id="tab-songs" class="admin-tab">
+            <h2>🎵 Song &amp; Music Management</h2>
+            <div class="tab-songs-form">
+              <h3 style="margin-bottom:14px;"><i class="fas fa-plus-circle" style="color:var(--accent);"></i> Add New Song</h3>
+              <form class="admin-form" onsubmit="addSong(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Song Title *</label>
+                    <input type="text" id="songTitle" placeholder="e.g. Tum Hi Ho" required autocomplete="off"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Artist / Singer *</label>
+                    <input type="text" id="songArtist" placeholder="e.g. Arijit Singh" required autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="songAudioFile">Upload Audio File (B2 / R2 · up to 1 GB)</label>
+                  <input type="file" id="songAudioFile" accept="audio/*"/>
+                  <small>Only upload audio you own or are licensed to distribute. Private uploads are stored in the selected cloud bucket.</small>
+                </div>
+                <div class="form-group">
+                  <label for="songStorageProvider">Audio Storage Provider</label>
+                  <select id="songStorageProvider"><option value="backblaze_b2">Backblaze B2 (recommended)</option><option value="cloudflare_r2">Cloudflare R2</option></select>
+                </div>
+                <div class="form-group">
+                  <label for="songFileUrl">Or use a direct authorised audio URL (HTTPS)</label>
+                  <input type="url" id="songFileUrl" placeholder="https://cdn.example.com/song.mp3" autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                  <label>Poster / Album Art URL <small style="color:var(--text-muted)">(Optional · HTTPS)</small></label>
+                  <input type="url" id="songPoster" placeholder="https://... (direct image link)" autocomplete="off"/>
+                </div>
+                <button type="submit" class="btn-primary full-width"><i class="fas fa-save"></i> Add Song to Library</button>
+                <p id="songUploadStatus" class="form-help" role="status">Upload a direct HTTPS audio link or a private B2/R2 audio file up to 1 GB.</p>
+              </form>
+            </div>
+            <h3 style="margin:0 0 14px;">🎶 Song Library</h3>
+            <div id="songsList" class="manage-list"></div>
+          </div>
+
+          <!-- TAB 9: Platform Settings (With Telegram Channel Link Configuration) -->
+          <div id="tab-settings" class="admin-tab">
+            <h2>⚙️ BunnyHub Platform Settings</h2>
+            <form class="admin-form" onsubmit="saveWebsiteSettings(event)">
+              <div class="form-group">
+                <label>Platform Name</label>
+                <input type="text" id="settingSiteName" value="BunnyHub" autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label><i class="fab fa-telegram-plane" style="color:#229ED9;"></i> Your Telegram Channel Link</label>
+                <input type="url" id="settingTelegram" value="https://t.me/BunnyHub_official" placeholder="https://t.me/your_channel_name" autocomplete="off"/>
+                <small style="color: var(--text-muted);">This link will be used in all Telegram buttons, banners, and download callouts.</small>
+              </div>
+              <section class="admin-form vh-bot-settings" style="margin:18px 0;">
+                <h3><i class="fab fa-telegram-plane"></i> Telegram Bot Integration</h3>
+                <p>Bot secrets must be stored in Cloudflare Pages → Settings → Variables and Secrets. Never paste a bot token into this dashboard.</p>
+                <ul><li>TELEGRAM_BOT_TOKEN</li><li>TELEGRAM_WEBHOOK_SECRET</li><li>TELEGRAM_ADMIN_CHAT_ID</li><li>TELEGRAM_CHANNEL_CHAT_ID (bot must be an admin in this channel)</li><li>TELEGRAM_CHANNEL_URL (optional public link)</li></ul>
+                <p><strong>Available bot commands:</strong> /start, /help, /latest, /search title, /genres, /request, /channel and admin-only /status. New catalog publishing and authenticated user requests can send channel/admin notifications.</p>
+                <button type="button" class="btn-primary" onclick="setupTelegramBotWebhook()">Connect / Refresh Bot Webhook</button>
+                <p id="telegramBotSetupStatus" role="status">Webhook not checked yet.</p>
+                <small>Commands: /start, /help, /latest, /request, /channel and admin-only /status.</small>
+                <p><strong>AdSense reporting secrets:</strong> ADSENSE_CLIENT_ID, ADSENSE_CLIENT_SECRET, ADSENSE_REFRESH_TOKEN, ADSENSE_ACCOUNT_ID. Use the read-only AdSense OAuth scope. Publisher ID for ads.txt: ADSENSE_PUBLISHER_ID.</p>
+              </section>
+              <div class="form-group">
+                <label>SEO Meta Description</label>
+                <textarea id="settingSeo" rows="2">BunnyHub - Stream and Download the best Bollywood, Hollywood, and South Indian Movies & Web Series online in HD.</textarea>
+              </div>
+              <div class="form-group">
+                <label>Maintenance Mode</label>
+                <select id="settingMaintenance">
+                  <option value="off">Off (Live for Public)</option>
+                  <option value="on">On (Staff Access Only)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Google AdSense</label>
+                <select id="settingAdsEnabled"><option value="off">Ads disabled</option><option value="on">Enable ads after approval</option></select>
+                <small>Enable only after Google approves the site, you have valid ad unit slots, and all published media is owned or licensed. Never click your own ads. The /ads.txt route reads the publisher ID saved below.</small>
+                <small class="settings-note">Before serving personalised ads in the EEA, UK or Switzerland, configure a Google-certified IAB TCF CMP. <a href="https://support.google.com/adsense/answer/13554116" target="_blank" rel="noopener noreferrer">Google consent requirements</a>.</small>
+                <p><a href="https://www.google.com/adsense/" target="_blank" rel="noopener noreferrer">Open Google AdSense account and earnings reports</a></p>
+              </div>
+              <div class="form-group">
+                <label for="settingAdsPublisher">AdSense Publisher ID</label>
+                <input type="text" id="settingAdsPublisher" placeholder="ca-pub-0000000000000000" maxlength="40" autocomplete="off"/>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label for="settingAdsSlotHome">Homepage Ad Slot ID</label><input type="text" id="settingAdsSlotHome" inputmode="numeric" placeholder="Numeric slot ID" maxlength="20"/></div>
+                <div class="form-group"><label for="settingAdsSlotFooter">Footer Ad Slot ID</label><input type="text" id="settingAdsSlotFooter" inputmode="numeric" placeholder="Numeric slot ID" maxlength="20"/></div>
+              </div>
+              <div class="form-group">
+                <label for="settingDonationUpi">Donation UPI ID (VPA)</label>
+                <input type="text" id="settingDonationUpi" maxlength="128" placeholder="yourname@upi" autocomplete="off"/>
+                <small>Only your public UPI ID. Never enter a UPI PIN, bank password or OTP.</small>
+              </div>
+              <div class="form-group">
+                <label for="settingDonationName">Donation Display Name</label>
+                <input type="text" id="settingDonationName" maxlength="80" value="BunnyHub" autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label for="settingDonationQr">UPI QR Image URL (HTTPS)</label>
+                <input type="url" id="settingDonationQr" placeholder="https://your-domain.com/upi-qr.png" autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label>Google Drive Integration Status</label>
+                <p style="color: var(--success); font-weight: 600; font-size: 0.9rem;">
+                  <i class="fas fa-info-circle"></i> Public shared-video link import is implemented. Set GOOGLE_DRIVE_API_KEY in Cloudflare Pages. Private files, folder imports and Drive-to-B2 copying are not supported yet.
+                </p>
+              </div>
+              <button type="submit" class="btn-primary full-width">
+                <i class="fas fa-save"></i> Save Configuration
+              </button>
+            </form>
+            <section class="admin-form vh-donation-admin" style="margin-top:22px;">
+              <h3>Donation Review</h3>
+              <p>UPI confirmations stay pending until you verify the transaction reference in your payment app or bank statement.</p>
+              <div id="adminDonationsList">Open this tab to load donation confirmations.</div>
+            </section>
+          </div>
+
+        </main>
+      </div>
+    </div>
+
+    <!-- ===== FULL-PAGE MOVIE DETAIL EXPERIENCE ===== -->
+    <div class="modal-overlay" id="movieModal" onclick="closeModal(event)">
+      <div class="modal-box">
+        <button type="button" id="vhMovieDetailsToggle" class="vh-movie-details-toggle" aria-expanded="true" aria-label="Minimise movie details" title="Minimise movie details" onclick="toggleMovieDetails()"><i class="fas fa-compress-alt"></i></button>
+
+        <button class="modal-close" onclick="closeModalBtn()" aria-label="Close dialog"><i class="fas fa-times"></i></button>
+        <div class="modal-hero" id="modalHero"></div>
+        <div class="vh-movie-compact-head" id="vhMovieCompactHead"><span class="vh-movie-compact-poster" id="vhMovieCompactPoster"></span><strong id="vhMovieCompactTitle">Movie details</strong><span class="vh-movie-compact-hint">Details minimised</span></div>
+        <div class="modal-body">
+          <div class="modal-left">
+            <img id="modalPoster" src="" alt="Movie Poster" class="modal-poster"/>
+          </div>
+          <div class="modal-right">
+            <h2 id="modalTitle">Movie Title</h2>
+            <div class="modal-meta" id="modalMeta"></div>
+            <div class="cinema-modal-badges" id="cinemaMovieBadges" aria-label="Movie quality and audio details"></div>
+            <p id="modalDesc" class="modal-desc"></p>
+            <div class="modal-detail-row" id="modalDirector"></div>
+            <div class="modal-screenshots" id="modalScreenshots" aria-label="Movie screenshots"></div>
+            <div class="modal-cast" id="modalCast"></div>
+            <div class="modal-actions">
+              <button class="btn-play" id="modalPlayBtn" onclick="playMovie()">
+                <i class="fas fa-play"></i> Watch Now
+              </button>
+              <button class="btn-download" onclick="downloadMovie()">
+                <i class="fas fa-download"></i> Download Options
+              </button>
+              <button class="btn-telegram" onclick="openTelegram()">
+                <i class="fab fa-telegram-plane"></i> Telegram
+              </button>
+              <button class="btn-add-list" id="modalWatchBtn" onclick="toggleWatchlist()">
+                <i class="fas fa-heart"></i> Watchlist
+              </button>
+            </div>
+          </div>
+        </div>
+        <section class="detail-playback-panel" id="detailPlaybackPanel" aria-label="Movie video player">
+          <div class="detail-player-heading">
+            <div><span class="detail-player-kicker">BunnyHub PLAYER</span><h3><i class="fas fa-play-circle"></i> Watch this title</h3></div>
+            <div class="vh-player-heading-actions"><span class="detail-player-status" id="detailPlayerStatus">Choose an available source</span><button type="button" id="detailPlayerMinimize" class="vh-player-minimize" aria-expanded="true" aria-label="Minimise video player" title="Minimise player"><i class="fas fa-minus"></i></button></div>
+          </div>
+          <div class="detail-player-stage">
+            <video id="detailVideo" controls playsinline preload="metadata" controlsList="nodownload"
+              disablePictureInPicture poster="" aria-label="Movie video player">
+              Your browser does not support HTML video playback.
+            </video>
+            <iframe id="detailPlayerIframe" class="hidden" src="" title="Authorised media preview"
+              allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen
+              referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            <div class="detail-player-empty hidden" id="detailPlayerEmpty" role="status">
+              No verified video source has been published for this title yet.
+            </div>
+          </div>
+          <div class="detail-player-toolbar">
+            <label class="detail-quality-control"><span><i class="fas fa-sliders-h"></i> Video quality</span>
+              <select id="detailQualitySelect" aria-label="Choose video quality" disabled>
+                <option>No verified source</option>
+              </select>
+            </label>
+            <label class="detail-subtitle-control hidden" id="detailSubtitleWrap"><span>Subtitles</span>
+              <select id="detailPlayerSubtitle" aria-label="Choose subtitles" disabled><option value="-1">Off</option></select>
+            </label>
+            <label class="detail-speed-control" id="detailSpeedWrap"><span>Speed</span>
+              <select id="detailPlayerSpeed" aria-label="Playback speed">
+                <option value="0.5">0.5×</option><option value="0.75">0.75×</option>
+                <option value="1" selected>1×</option><option value="1.25">1.25×</option>
+                <option value="1.5">1.5×</option><option value="2">2×</option>
+              </select>
+            </label>
+            <span class="detail-player-source-note"><i class="fas fa-shield-alt"></i> Verified published sources only</span>
+          </div>
+        </section>
+        <section class="series-episodes-panel hidden" id="seriesEpisodesPanel">
+          <h3>Seasons & Episodes</h3>
+          <div id="seriesEpisodesList"></div>
+        </section>
+        <!-- Embedded Trailer -->
+        <div class="trailer-section" id="trailerSection">
+          <h3>🎞️ Official Trailer</h3>
+          <div class="trailer-embed" id="trailerEmbed"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== VIDEO STREAM PLAYER MODAL ===== -->
+    <div class="player-overlay" id="playerOverlay">
+      <div class="player-box">
+        <div class="player-header">
+          <span id="playerTitle">▶ Now Playing</span>
+          <button onclick="closePlayer()" aria-label="Close player"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="player-frame">
+          <iframe id="playerIframe" src="" allowfullscreen title="Media Player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <!-- Fallback for Error 153 / blocked embed -->
+          <div class="player-fallback" id="playerFallback">
+            <video controls controlsList="nodownload">
+              <source src="" type="video/mp4"/>
+              Your browser does not support the video tag.
+            </video>
+            <p style="color:var(--text-muted); font-size:0.85rem;">⚠️ Stream embed blocked. Playing direct file. If not loading, use <strong>Download Options</strong>.</p>
+            <button class="btn-download" onclick="downloadMovie()"><i class="fas fa-download"></i> Download Instead</button>
+          </div>
+        </div>
+        <div class="player-controls">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="color: var(--success); font-size: 0.85rem;"><i class="fas fa-shield-alt"></i> Secure Stream</span>
+            <span id="playerResolutionStatus" style="color: var(--text-muted); font-size: 0.82rem;">Choose an available quality</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-telegram-sm" onclick="openTelegram()">
+              <i class="fab fa-telegram-plane"></i> Telegram
+            </button>
+            <button class="btn-download" onclick="downloadMovie()">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ALL RESOLUTIONS DOWNLOAD MODAL (A TO Z RESOLUTION OPTIONS) ===== -->
+    <div class="download-modal-overlay" id="downloadModal" onclick="if(event.target===this)closeDownloadModal()">
+      <div class="download-modal-box">
+        <div class="download-header">
+          <h3><i class="fas fa-download" style="color:var(--accent);"></i> Download Available Resolutions</h3>
+          <button class="modal-close" onclick="closeDownloadModal()" aria-label="Close download dialog" style="position:static; width:36px; height:36px;">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Movie Header Inside Download Modal -->
+        <div class="download-movie-info">
+          <img id="dlModalPoster" src="" alt="Poster" />
+          <div class="download-movie-details">
+            <h4 id="dlModalTitle">Selected title</h4>
+            <p id="dlModalMeta"></p>
+            <span id="dlModalAudioInfo" style="display:none;font-size:0.75rem;color:var(--muted);font-weight:600;"></span>
+          </div>
+        </div>
+
+        <!-- Screenshot Preview Carousel -->
+        <div class="screenshot-slider-wrap">
+          <div id="dlScreenshotSlider"></div>
+          <div id="dlSliderDots"></div>
+        </div>
+
+        <!-- Real resolution choices are inserted only after a movie is opened and its verified sources are loaded. -->
+        <div class="res-list" aria-live="polite">
+          <p class="res-empty-state">Choose a movie to view its available download resolutions.</p>
+        </div>
+
+        <!-- Telegram Direct File Option Callout -->
+        <div class="telegram-callout" id="dlTelegramCallout">
+          <p>📲 <strong>Want Instant Direct Download Without Any Waiting or Redirection?</strong><br/>Download the original video file directly inside our Telegram Channel!</p>
+          <a id="dlModalTelegramBtn" href="https://t.me/BunnyHub_official" target="_blank" class="btn-telegram telegram-target-link" style="width: 100%;">
+            <i class="fab fa-telegram-plane"></i> Get Direct File on Telegram
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  <div class="donation-overlay" id="donationModal" role="dialog" aria-modal="true" aria-labelledby="donationTitle" aria-hidden="true" onclick="closeDonationPanel(event)">
+    <section class="donation-panel" onclick="event.stopPropagation()">
+      <button type="button" class="donation-close" onclick="closeDonationPanel()" aria-label="Close donation panel">×</button>
+      <span class="donation-kicker"><i class="fas fa-heart"></i> Community support</span>
+      <h2 id="donationTitle">Support BunnyHub</h2>
+      <p class="donation-intro">Your voluntary contribution helps with hosting and platform maintenance. Donations do not buy or unlock content.</p>
+      <div class="donation-pay-area">
+        <img id="donationQrImage" class="donation-qr hidden" alt="BunnyHub UPI payment QR code"/>
+        <div id="donationQrFallback" class="donation-qr-fallback"><i class="fas fa-qrcode"></i><span>UPI payment details will appear here when configured.</span></div>
+        <p id="donationUpiLabel" class="donation-upi-label">UPI not configured yet</p>
+        <a id="donationPayBtn" class="btn-primary donation-pay-btn hidden" href="#" rel="nofollow"><i class="fas fa-mobile-alt"></i> Pay using UPI app</a>
+      </div>
+      <form id="donationForm" class="donation-form">
+        <h3>Already donated? Submit confirmation</h3>
+        <div class="form-group"><label for="donorName">Name</label><input id="donorName" maxlength="80" required placeholder="Your name"/></div>
+        <div class="donation-amounts" aria-label="Suggested donation amounts">
+          <button type="button" data-donation-amount="51">₹51</button><button type="button" data-donation-amount="101">₹101</button><button type="button" data-donation-amount="251">₹251</button><button type="button" data-donation-amount="501">₹501</button>
+        </div>
+        <div class="form-group"><label for="donationAmount">Amount (INR)</label><input id="donationAmount" type="number" min="1" max="999" step="1" required placeholder="Enter amount"/></div>
+        <div class="form-group"><label for="donationReference">UPI transaction reference / UTR</label><input id="donationReference" minlength="8" maxlength="64" pattern="[A-Za-z0-9-]{8,64}" required placeholder="Enter transaction reference"/></div>
+        <button id="donationSubmitBtn" type="submit" class="btn-primary full-width" disabled>Submit for verification</button>
+        <p id="donationStatus" class="donation-status" role="status">Configure a UPI ID in Admin → Platform Settings to accept contributions.</p>
+      </form>
+      <section id="myDonationHistory" class="my-donation-history hidden"><h3>My donation history</h3><div id="myDonationHistoryList"></div></section>
+    </section>
+  </div>
+    <!-- Privacy, terms and copyright information -->
+    <div id="page-privacy" class="page legal-page">
+      <div class="page-header-banner"><h1>Privacy Policy</h1><p>How BunnyHub handles account, usage and donation information.</p></div>
+      <section class="section legal-content">
+        <h2>Information we handle</h2>
+        <p>When you create an account, Supabase Authentication processes your login credentials. BunnyHub may store your profile name, role, watchlist, viewing progress, content requests, feedback and donation references that you submit.</p>
+        <h2>Usage data and local storage</h2>
+        <p>BunnyHub records limited first-party usage events such as page views, content-detail views, play clicks and download clicks to understand site performance and popular content. Theme preference and basic interface state may be stored in your browser's local storage.</p>
+        <h2>Service providers</h2>
+        <p>The platform may use Supabase for authentication and database services, Cloudflare for hosting and APIs, Backblaze B2 or Cloudflare R2 for private media storage, Google services for authorised Drive imports and advertising, and Telegram for optional bot and channel notifications. Those providers process data under their own terms and privacy policies.</p>
+        <h2>Advertising</h2>
+        <p>If Google AdSense is enabled after approval, Google and its partners may use cookies or similar technologies to serve and measure ads, subject to the consent and privacy requirements that apply in a visitor's region. Advertising is disabled until the site owner configures the required account settings.</p>
+        <h2>Security and retention</h2>
+        <p>Where private storage is used, media is stored in non-public buckets and accessed through signed links; externally supplied URLs remain subject to their provider's access controls. Access to admin functions is role-controlled. Account and platform records are retained as needed to operate the service, protect it from abuse and meet applicable legal obligations.</p>
+        <h2>Your choices</h2>
+        <p>You can manage your account, update your profile, change your password or request account assistance through the site. Do not submit passwords, payment credentials or private API keys in requests or feedback.</p>
+        <p>For questions, use the official <a href="https://t.me/BunnyHub_official" target="_blank" rel="noopener">BunnyHub Telegram channel</a>. This policy is a platform information notice and should be reviewed by the site owner for local legal requirements before advertising is enabled.</p>
+      </section>
+    </div>
+    <div id="page-terms" class="page legal-page">
+      <div class="page-header-banner"><h1>Terms of Use</h1><p>Rules for using BunnyHub accounts and media features.</p></div>
+      <section class="section legal-content">
+        <h2>Permitted use</h2>
+        <p>Use BunnyHub lawfully and respectfully. Only content that the platform owner or uploader owns, controls or is licensed to distribute may be published. Do not upload, request, share or distribute material that infringes copyright or other rights.</p>
+        <h2>Accounts and security</h2>
+        <p>You are responsible for activity performed through your account. Keep your password private and notify the site team if you suspect unauthorised access. The platform may restrict accounts or content that threaten service security or violate these terms.</p>
+        <h2>Content and external links</h2>
+        <p>Availability, quality, language, subtitles and download options vary by title and by the sources supplied by the content owner. External storage and third-party links may be unavailable or subject to separate terms.</p>
+        <h2>Requests, feedback and donations</h2>
+        <p>Content requests and community feedback are suggestions, not guarantees of publication. Voluntary UPI support is recorded from the reference submitted by the donor; verification is performed manually by the site team. Do not submit another person's payment reference.</p>
+        <h2>Service availability</h2>
+        <p>Features may be updated, suspended or removed for maintenance, security, legal compliance or provider limitations. The platform is provided without a guarantee that every title or external source will always be available.</p>
+        <p>By using BunnyHub, you agree to follow applicable laws and these terms. The site owner should review and adapt this notice to the laws and business practices that apply to the service.</p>
+      </section>
+    </div>
+    <div id="page-copyright" class="page legal-page">
+      <div class="page-header-banner"><h1>Copyright & Content Policy</h1><p>BunnyHub is intended for content that is owned or properly licensed.</p></div>
+      <section class="section legal-content">
+        <h2>Authorised content only</h2>
+        <p>Uploaders and administrators must confirm that they have the rights and permissions required to publish each movie, series, episode, short, poster, trailer, subtitle and download source.</p>
+        <h2>Report a concern</h2>
+        <p>If you believe content on BunnyHub infringes your rights, submit a Community complaint with the exact page or content title, the relevant source URL, a description of the copyrighted work, evidence of ownership or authority to act, and a reliable contact method. Do not include passwords or sensitive payment information.</p>
+        <p>Reports are reviewed by the site team. This online complaint route is not a substitute for any formal notice required by applicable copyright law. The site owner must publish a designated legal contact and complete the required notice-and-takedown process before relying on this page as a formal copyright agent notice.</p>
+        <p><a href="https://t.me/BunnyHub_official" target="_blank" rel="noopener">Official BunnyHub Telegram channel</a></p>
+      </section>
+    </div>
+
+  </div><!-- end #app -->
+
+  <section class="vh-ad-section vh-ad-footer" id="vhAdFooter" aria-label="Advertisement" hidden></section>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand" onclick="showPage('home')" style="cursor: pointer;">
+        🎬 Vision<span class="brand-accent">Hub</span>
+      </div>
+      <p>© 2026 BunnyHub. All rights reserved. The ultimate entertainment hub for Movies and Web Series.</p>
+      <div class="footer-links">
+        <a href="#home" onclick="showPage('home')">Home</a>
+        <a href="#movies" onclick="showPage('movies')">Movies</a>
+        <a href="#series" onclick="showPage('series')">Web Series</a>
+        <a href="#request" onclick="showPage('request')">Request Movie</a>
+        <a href="#community" onclick="showPage('community')">Community</a>
+        <a href="#feedback" onclick="showPage('feedback')">Feedback</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Use</a>
+        <a href="/copyright.html">Copyright & Content Policy</a>
+        <button type="button" class="footer-donate-btn" onclick="openDonationPanel()"><i class="fas fa-heart"></i> Support BunnyHub</button>
+        <a href="https://t.me/BunnyHub_official" target="_blank" class="telegram-target-link" style="color: #229ED9;">
+          <i class="fab fa-telegram-plane"></i> Join Telegram
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="js/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/supabase-auth.js?v=20261120-7"></script>
+<script src="js/account-data.js"></script>
+<script src="js/account-portal.js"></script>
+<script src="js/app.js?v=20261120-12"></script>
+<script src="js/posts-public.js?v=20261121-2"></script>
+<script src="js/analytics.js"></script>
+<script src="js/content-admin.js?v=20261120-12"></script>
+<script src="js/posts-admin.js?v=20261121-1"></script>
+<script src="js/storage-manager.js?v=20261120-2"></script>
+<script src="js/request-manager.js"></script>
+<script src="js/admin-tools.js"></script>
+<script src="js/login-activity.js?v=20261120-4"></script>
+<script src="js/maintenance-mode.js"></script>
+<script src="js/public-settings.js"></script>
+<script src="js/theme-manager.js?v=20261120-5"></script>
+<script src="js/donation-manager.js?v=20261120-3"></script>
+<script src="js/ads-manager.js"></script>
+<script src="js/episode-manager.js"></script>
+<script src="js/song-library.js"></script>
+<script src="js/community.js"></script>
+<script src="js/experience-ui.js?v=20261120-21"></script>
+<script src="js/cinema-home.js?v=20261120-3"></script>
+</body>
+</html>
