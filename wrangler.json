@@ -7,7 +7,4 @@
   "pages_build_output_dir": ".",
   "vars": {
     "SUPABASE_URL": "https://gspkgdpkysfzjeqevsja.supabase.co",
-    "SUPABASE_ANON_KEY": "sb_publishable_BdJpBQOi8IR0LQA6P8tkMw_CGoK1lZ5",
-    "B2_ENDPOINT": "https://s3.us-east-005.backblazeb2.com",
-    "B2_BUCKET_NAME": "bunnyhub-media"
-  }
+    "SUPABASE_ANON_KEY": "sb_publishable_BdJpBQOi8IR0LQA6P8tkMw_CGoK1lZ5",  }
