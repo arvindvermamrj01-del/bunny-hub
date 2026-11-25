@@ -7,11 +7,11 @@ async function hmac(key, value) {
   return crypto.subtle.sign("HMAC", imported, encoder.encode(value));
 }
 export async function presignB2(env, method, key, contentType = "", expires = 900, responseContentDisposition = "") {
-  const endpoint = String(env.B2_ENDPOINT || "").replace(/^https?:\/\//, "").replace(/\/$/, "");
-  const bucket = env.B2_BUCKET_NAME;
-  const accessKey = env.B2_KEY_ID;
-  const secretKey = env.B2_APPLICATION_KEY;
-  const region = endpoint.split(".")[1] || "";
+  const endpoint = String(env.B2_ENDPOINT || "s3.us-east-005.backblazeb2.com").trim().replace(/^https?:\/\//, "").replace(/\/$/, "");
+  const bucket = String(env.B2_BUCKET_NAME || "").trim();
+  const accessKey = String(env.B2_KEY_ID || "").trim();
+  const secretKey = String(env.B2_APPLICATION_KEY || "").trim();
+  const region = endpoint.split(".")[1] || "us-east-005";
   if (![endpoint, bucket, accessKey, secretKey, region].every(Boolean)) throw new Error("Backblaze B2 secrets are not configured.");
   const host = endpoint;
   const uri = "/" + encode(bucket) + "/" + String(key).split("/").map(encode).join("/");
@@ -24,12 +24,12 @@ export async function presignB2(env, method, key, contentType = "", expires = 90
     "X-Amz-Credential": accessKey + "/" + scope,
     "X-Amz-Date": amzDate,
     "X-Amz-Expires": String(Math.max(60, Math.min(604800, Number(expires) || 900))),
-    "X-Amz-SignedHeaders": contentType ? "content-type;host" : "host"
+    "X-Amz-SignedHeaders": "host"
   };
   if (responseContentDisposition) params["response-content-disposition"] = responseContentDisposition;
   const canonicalQuery = Object.entries(params).sort(([a], [b]) => a.localeCompare(b)).map(([name, value]) => encode(name) + "=" + encode(value)).join("&");
-  const canonicalHeaders = contentType ? "content-type:" + contentType.trim() + "\nhost:" + host + "\n" : "host:" + host + "\n";
-  const signedHeaders = contentType ? "content-type;host" : "host";
+  const canonicalHeaders = "host:" + host + "\n";
+  const signedHeaders = "host";
   const canonicalRequest = [method.toUpperCase(), uri, canonicalQuery, canonicalHeaders, signedHeaders, "UNSIGNED-PAYLOAD"].join("\n");
   const stringToSign = ["AWS4-HMAC-SHA256", amzDate, scope, hex(await sha256(canonicalRequest))].join("\n");
   const dateKey = await hmac(encoder.encode("AWS4" + secretKey), dateStamp);
