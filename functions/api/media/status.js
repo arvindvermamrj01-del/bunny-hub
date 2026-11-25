@@ -10,7 +10,9 @@ export async function onRequestGet({ env }) {
       note: "Private media signing requires the server-side service-role secret."
     },
     backblazeB2: {
-      configured: ["B2_ENDPOINT","B2_BUCKET_NAME","B2_KEY_ID","B2_APPLICATION_KEY"].every(key => configured(env[key]))
+      configured: ["B2_ENDPOINT", "B2_BUCKET_NAME", "B2_KEY_ID", "B2_APPLICATION_KEY"].every(key => configured(env[key])),
+      bucket: env.B2_BUCKET_NAME || "",
+      endpoint: env.B2_ENDPOINT || ""
     },
     cloudflareR2: {
       configured: ["R2_ACCOUNT_ID","R2_BUCKET_NAME","R2_ACCESS_KEY_ID","R2_SECRET_ACCESS_KEY"].every(key => configured(env[key]))
