@@ -2,5 +2,6 @@
 Allow: /
 Disallow: /control-center
 Disallow: /api/
-Disallow: /api/
-Sitemap: https://bunnyhub.pages.dev/sitemap.xml
+Disallow: /supabase/
+Disallow: /cloudflare/
+Sitemap: https://bunny-hub.pages.dev/sitemap.xml

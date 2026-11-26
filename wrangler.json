@@ -9,5 +9,12 @@
     "SUPABASE_ANON_KEY": "sb_publishable_BdJpBQOi8IR0LQA6P8tkMw_CGoKllZ5",
     "B2_ENDPOINT": "s3.us-east-005.backblazeb2.com",
     "B2_BUCKET_NAME": "bunnyhub-media"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "VH_SECURITY_DB",
+      "database_name": "bunnyhub-security",
+      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+    }
+  ]
 }
