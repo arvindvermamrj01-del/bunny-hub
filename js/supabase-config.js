@@ -1,2 +1,11 @@
-window.VH_SUPABASE_URL = "https://bmtbsguwbbeuvmvdfdyb.supabase.co";
-window.VH_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Fqurc0jZqflhET0ls3SCuw_5lasK9Xp";
+/* Public Supabase client configuration (frozen against runtime tampering). */
+Object.defineProperty(window, "VH_SUPABASE_URL", {
+  value: "https://gspkgdpkysfzjeqevsja.supabase.co",
+  writable: false,
+  configurable: false
+});
+Object.defineProperty(window, "VH_SUPABASE_PUBLISHABLE_KEY", {
+  value: "sb_publishable_BdJpBQOi8IR0LQA6P8tkMw_CGoKllZ5",
+  writable: false,
+  configurable: false
+});

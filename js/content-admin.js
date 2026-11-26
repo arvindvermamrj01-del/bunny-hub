@@ -892,7 +892,8 @@
       $("modalTitle").textContent=item.title;
       $("modalDesc").textContent=item.description||"";
       $("modalMeta").textContent=[item.year,item.genre,item.language,item.duration].filter(Boolean).join(" · ");
-      $("modalPoster").src=item.poster||"";
+      const mp = $("modalPoster");
+      if (mp) { mp.style.display = item.poster ? "" : "none"; if (item.poster) mp.src = item.poster; else mp.removeAttribute("src"); }
       $("movieModal")?.classList.add("open");
     }
     setupDetailPlayer(item);
@@ -921,7 +922,8 @@
     if(!modal||!host){toast("Download panel unavailable.");return;}
     $("dlModalTitle").textContent=activeItem.title;
     $("dlModalMeta").textContent=[activeItem.year,activeItem.genre,activeItem.language,activeItem.duration].filter(Boolean).join(" · ");
-    $("dlModalPoster").src=activeItem.poster||"";
+    const dlPoster = $("dlModalPoster");
+    if (dlPoster) { dlPoster.style.display = activeItem.poster ? "" : "none"; if (activeItem.poster) dlPoster.src = activeItem.poster; else dlPoster.removeAttribute("src"); }
     const assets=(activeItem.media_assets||[]).filter(asset=>asset.url&&(!asset.asset_type||asset.asset_type==="video"));
     const choices=assets.length?assets.sort((a,b)=>{const ai=qualityOrder.indexOf(String(a.resolution||"").toLowerCase()),bi=qualityOrder.indexOf(String(b.resolution||"").toLowerCase());return (bi<0?-1:bi)-(ai<0?-1:ai);}):[{resolution:"Original",url:activeItem.video_url}].filter(asset=>asset.url);
     const audioInfo=$("dlModalAudioInfo"),languages=[...new Set(assets.map(asset=>String(asset.language||"").trim()).filter(Boolean))];

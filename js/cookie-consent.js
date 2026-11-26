@@ -81,7 +81,7 @@
     banner.innerHTML = `
       <div class="bh-cookie-content">
         <p class="bh-cookie-text">
-          By clicking <strong>“Accept All Cookies”</strong>, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our <a href="https://www.backblaze.com/company/policy/cookies" target="_blank" rel="noopener noreferrer">Cookie Policy</a>.
+          By clicking <strong>“Accept All Cookies”</strong>, you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. View our <a href="/cookie-policy.html">Cookie Policy</a>.
         </p>
         <div class="bh-cookie-actions">
           <button type="button" class="bh-cookie-btn bh-btn-settings" id="bhCookieSettingsBtn">

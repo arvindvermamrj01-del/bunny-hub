@@ -9,11 +9,11 @@
   <meta property="og:site_name" content="BunnyHub"/>
   <meta property="og:title" content="BunnyHub | Movies, Web Series & Shorts"/>
   <meta property="og:description" content="Discover movies, web series and shorts on BunnyHub."/>
-  <meta property="og:url" content="https://bunnyhub.pages.dev/"/>
+  <meta property="og:url" content="https://bunny-hub.pages.dev/"/>
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebSite","name":"BunnyHub","url":"https://bunnyhub.pages.dev/","description":"Discover licensed movies, TV shows and shorts on BunnyHub."}
+    {"@context":"https://schema.org","@type":"WebSite","name":"BunnyHub","url":"https://bunny-hub.pages.dev/","description":"Discover licensed movies, TV shows and shorts on BunnyHub."}
   </script>
-  <link rel="canonical" href="https://bunnyhub.pages.dev/"/>
+  <link rel="canonical" href="https://bunny-hub.pages.dev/"/>
   <title>BunnyHub 🎬 | Movies, TV Shows & Shorts</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -92,9 +92,8 @@
           </div>
         </div>
 
-        <!-- Guest User Auth Buttons (Signup / Login / Guest Mode) -->
+        <!-- Guest User Auth Buttons (Signup / Login) -->
         <div id="authNav">
-          <button class="btn-guest" id="btnGuestMode" onclick="enableGuestMode()" title="Browse as Guest"><i class="fas fa-user-secret"></i> Guest</button>
           <button class="btn-login" onclick="showPage('login')">Login</button>
           <button class="btn-signup" onclick="showPage('register')">Sign Up</button>
         </div>
@@ -189,20 +188,6 @@
 
     <!-- 1. HOME PAGE -->
     <div id="page-home" class="page active">
-      <!-- Legacy hero kept for existing app hooks; the Cinema4U-style storefront replaces its presentation. -->
-      <section class="hero" id="heroSection" aria-hidden="true">
-        <div class="hero-bg" id="heroBg"></div><div class="hero-overlay"></div>
-        <div class="hero-content" id="heroContent">
-          <span class="hero-badge">Trending Now</span>
-          <h1 id="heroTitle">Loading…</h1><p id="heroDesc"></p>
-          <div class="hero-meta" id="heroMeta"></div>
-          <div class="hero-buttons">
-            <button class="btn-play" id="heroPlayBtn">Watch Now</button>
-            <button class="btn-add-list" id="heroListBtn">My List</button>
-          </div>
-        </div><div class="hero-dots" id="heroDots"></div>
-      </section>
-
       <section class="cinema-search-row" aria-label="Search the catalogue">
         <div class="cinema-search-box">
           <i class="fas fa-search" aria-hidden="true"></i>
@@ -648,13 +633,20 @@
               <input type="text" id="adminUser" placeholder="admin or admin email" autocomplete="username" required/>
             </div>
             <div class="form-group">
-              <label for="adminPass">Password</label>
+              <label for="adminPass">Layer 1 · Password</label>
               <div class="input-group">
                 <input type="password" id="adminPass" placeholder="Enter your password" autocomplete="current-password" required/>
                 <button type="button" onclick="togglePassword('adminPass')" aria-label="Show or hide password"><i class="fas fa-eye"></i></button>
               </div>
             </div>
-            <button type="submit" id="adminSubmitBtn" class="btn-admin-login full-width"><i class="fas fa-arrow-right-to-bracket"></i> Secure sign in</button>
+            <div class="form-group">
+              <label for="adminSecurityPin">Layer 2 · Server Security PIN</label>
+              <div class="input-group">
+                <input type="password" id="adminSecurityPin" placeholder="Enter Admin Security PIN" autocomplete="off" required/>
+                <button type="button" onclick="togglePassword('adminSecurityPin')" aria-label="Show or hide security PIN"><i class="fas fa-key"></i></button>
+              </div>
+            </div>
+            <button type="submit" id="adminSubmitBtn" class="btn-admin-login full-width"><i class="fas fa-shield-halved"></i> Verify &amp; Sign In</button>
           </form>
           <div class="admin-auth-foot"><i class="fas fa-circle-info"></i> Only approved Admin, Sub-admin, Content Editor and Moderator accounts can access this panel.</div>
         </section>
@@ -885,19 +877,10 @@
                 <label for="addStorageProvider">Upload / Link Storage</label>
                 <select id="addStorageProvider">
                   <option value="backblaze_b2">Backblaze B2 (Default — private cloud upload)</option>
-                  <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload — server setup required)</option>
+                  <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload)</option>
                   <option value="supabase">Supabase (legacy / existing uploads)</option>
-                  <option value="pixeldrain">PixelDrain (experimental · API key + India access check required)</option>
-                  <option value="terabox">TeraBox (authorised URL only — API connector pending)</option>
-                  <option value="mega">MEGA (authorised URL only — API connector pending)</option>
-                  <option value="degoo">Degoo (authorised URL only — API connector pending)</option>
-                  <option value="google_drive">Google Drive (public shared video link import; no B2 copy)</option>
-                  <option value="mediafire">MediaFire (authorised URL only — API connector pending)</option>
-                  <option value="pcloud">pCloud (authorised URL only — API connector pending)</option>
-                  <option value="box">Box (authorised URL only — API connector pending)</option>
-                  <option value="icedrive">Icedrive (authorised URL only — API connector pending)</option>
-                  <option value="koofr">Koofr (authorised URL only — API connector pending)</option>
-                  <option value="internxt">Internxt (authorised URL only — API connector pending)</option>
+                  <option value="google_drive">Google Drive (public shared video link import)</option>
+                  <option value="pixeldrain">PixelDrain (up to 90 MiB)</option>
                   <option value="telegram">Telegram (authorised post link only)</option>
                 </select>
                 <input type="file" id="addVideoFile" accept="video/*" autocomplete="off"/>
@@ -985,18 +968,9 @@
                 <label for="shortStorageProvider">Upload / Link Storage</label>
                 <select id="shortStorageProvider">
                   <option value="backblaze_b2">Backblaze B2 (Default — private cloud upload)</option>
-                  <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload — server setup required)</option>
+                  <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload)</option>
                   <option value="supabase">Supabase (legacy / existing uploads)</option>
-                  <option value="terabox">TeraBox (authorised URL only — API connector pending)</option>
-                  <option value="mega">MEGA (authorised URL only — API connector pending)</option>
-                  <option value="degoo">Degoo (authorised URL only — API connector pending)</option>
-                  <option value="google_drive">Google Drive (public shared video link import; no B2 copy)</option>
-                  <option value="mediafire">MediaFire (authorised URL only — API connector pending)</option>
-                  <option value="pcloud">pCloud (authorised URL only — API connector pending)</option>
-                  <option value="box">Box (authorised URL only — API connector pending)</option>
-                  <option value="icedrive">Icedrive (authorised URL only — API connector pending)</option>
-                  <option value="koofr">Koofr (authorised URL only — API connector pending)</option>
-                  <option value="internxt">Internxt (authorised URL only — API connector pending)</option>
+                  <option value="google_drive">Google Drive (public shared video link import)</option>
                   <option value="telegram">Telegram (authorised post link only)</option>
                 </select>
                 <input type="file" id="shortVideoFile" accept="video/*" autocomplete="off"/>
@@ -1127,18 +1101,10 @@
                 <label for="defaultStorageProvider">Default Storage Provider</label>
                 <select id="defaultStorageProvider">
                   <option value="backblaze_b2">Backblaze B2 (recommended default)</option>
-                  <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload — server setup required)</option>
-                  <option value="supabase">Supabase (legacy / existing uploads)</option>
-                  <option value="terabox">TeraBox</option>
-                  <option value="mega">MEGA</option>
-                  <option value="degoo">Degoo</option>
+                  <option value="cloudflare_r2">Cloudflare R2</option>
+                  <option value="supabase">Supabase (legacy)</option>
                   <option value="google_drive">Google Drive</option>
-                  <option value="mediafire">MediaFire</option>
-                  <option value="pcloud">pCloud</option>
-                  <option value="box">Box</option>
-                  <option value="icedrive">Icedrive</option>
-                  <option value="koofr">Koofr</option>
-                  <option value="internxt">Internxt</option>
+                  <option value="pixeldrain">PixelDrain</option>
                   <option value="telegram">Telegram</option>
                 </select>
               </div>
@@ -1149,15 +1115,9 @@
               <h3>Provider availability</h3>
               <p><strong>Backblaze B2:</strong> Active private S3-compatible upload, signed playback access and server-side deletion for Movie, Series, Short and Song audio files. Requires the B2 secrets in Cloudflare Pages.</p>
               <p><strong>Cloudflare R2:</strong> Direct S3-compatible upload, signed playback and deletion are supported for media and song audio when R2 secrets are configured.</p>
-              <p><strong>Supabase:</strong> Retained for database, authentication and legacy private media; B2 is the preferred default for new video uploads.</p>
-              <p><strong>Google Drive:</strong> Public shared video-file verification and catalog linking are supported when GOOGLE_DRIVE_API_KEY is configured. Original files remain in Drive; importing them into B2 requires a separate authorised transfer connector.</p>
-              <p><strong>Box, pCloud, Koofr:</strong> Official API options exist; OAuth credentials and server-side upload integration are still required.</p>
-              <p><strong>TeraBox:</strong> Official Open Platform exists; application approval and server-side OAuth credentials are required.</p>
-              <p><strong>MEGA:</strong> Third-party SDK options exist; no website connector is configured.</p>
-              <p><strong>MediaFire:</strong> API credentials and a tested upload connector are still required.</p>
-              <p><strong>Degoo, Icedrive, Internxt:</strong> Manual authorised links only until a supported integration is verified.</p>
-              <p><strong>Telegram:</strong> Channel/post links can be saved; bot upload automation is not connected yet.</p>
-              <p style="color:var(--text-muted);font-size:.88rem;">Direct file uploads are currently implemented for Backblaze B2, Cloudflare R2 and legacy Supabase Storage. Other listed providers are link-only until their official server-side connectors and credentials are configured. Never paste passwords, API tokens or private keys into this page.</p>
+              <p><strong>Supabase:</strong> Retained for database, authentication and legacy private media.</p>
+              <p><strong>Google Drive:</strong> Public shared video-file verification and catalog linking when GOOGLE_DRIVE_API_KEY is configured.</p>
+              <p><strong>PixelDrain / Telegram:</strong> Supported via API key (up to 90 MiB) or authorised channel/post links.</p>
             </div>
           </div>
 
@@ -1221,8 +1181,6 @@
                     <th>#</th>
                     <th>User Profile</th>
                     <th>Profile ID</th>
-                    <th>Email</th>
-                    <th>Phone (Country Code)</th>
                     <th>Joined Date</th>
                     <th>Role</th>
                   </tr>
@@ -1468,7 +1426,7 @@
         <div class="vh-movie-compact-head" id="vhMovieCompactHead"><span class="vh-movie-compact-poster" id="vhMovieCompactPoster"></span><strong id="vhMovieCompactTitle">Movie details</strong><span class="vh-movie-compact-hint">Details minimised</span></div>
         <div class="modal-body">
           <div class="modal-left">
-            <img id="modalPoster" src="" alt="Movie Poster" class="modal-poster"/>
+            <img id="modalPoster" alt="Movie Poster" class="modal-poster"/>
           </div>
           <div class="modal-right">
             <h2 id="modalTitle">Movie Title</h2>
@@ -1592,7 +1550,7 @@
 
         <!-- Movie Header Inside Download Modal -->
         <div class="download-movie-info">
-          <img id="dlModalPoster" src="" alt="Poster" />
+          <img id="dlModalPoster" alt="Poster" />
           <div class="download-movie-details">
             <h4 id="dlModalTitle">Selected title</h4>
             <p id="dlModalMeta"></p>

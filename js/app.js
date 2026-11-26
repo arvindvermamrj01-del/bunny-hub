@@ -12,7 +12,7 @@ const saveWatchlist=(items,userId=window.VH_USER_ID)=>window.VH_ACCOUNT_DATA?.wr
 const progressStorageKey=(id,userId=window.VH_USER_ID)=>window.VH_ACCOUNT_DATA?.progressKey(id,userId)||"vh_progress_"+String(id);
 function toast(msg){const el=$("toast");if(!el)return;el.textContent=msg;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),2800)}
 function card(m){
-const poster=m.poster?'<img loading="lazy" src="'+safe(m.poster)+'" alt="'+safe(m.title)+' poster" onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'poster-empty\',textContent:\'Poster unavailable\'}))">':'<div class="poster-empty">Poster unavailable</div>';
+const poster=m.poster?'<img loading="lazy" data-vh-poster="1" src="'+safe(m.poster)+'" alt="'+safe(m.title)+' poster">':'<div class="poster-empty">Poster unavailable</div>';
 const meta=[m.year,m.genre,m.rating?'★ '+m.rating:'',m.view_count?'🔥 '+Number(m.view_count).toLocaleString('en-IN')+' views':''].filter(Boolean).join(' · ');
 return '<article class="movie-card"><button class="poster-button" onclick="openMovie(&quot;'+safe(m.id)+'&quot;)" aria-label="View '+safe(m.title)+'">'+poster+'<span class="poster-play"><i class="fas fa-play"></i></span></button><div class="movie-info"><h3>'+safe(m.title)+'</h3><p>'+safe(meta)+'</p><div class="card-actions"><button onclick="openMovie(&quot;'+safe(m.id)+'&quot;)">Details</button><button onclick="toggleItem(&quot;'+safe(m.id)+'&quot;)" aria-label="Add to watchlist">♡</button></div></div></article>';
 }
@@ -251,7 +251,7 @@ function renderMovieDetailLayout(m){
  if(backdrop){
   backdrop.style.backgroundImage="";
   const raw=String(m.backdrop||m.poster||"").trim();
-  try{const url=new URL(raw,window.location.href);if(["https:","http:"].includes(url.protocol))backdrop.style.backgroundImage='url("'+url.href+'")';}catch(_){}
+  try{const url=new URL(raw,window.location.href);if(["https:","http:"].includes(url.protocol)&&!/["'()\r\n]/.test(url.href))backdrop.style.backgroundImage='url("'+url.href+'")';}catch(_){}
  }
  const quick=$("vhDetailQuickOptions"),allButton=$("vhDetailAllDownloads");
  if(quick){
@@ -335,7 +335,7 @@ window.liveSearch=q=>{
   if(!recent.includes(t)){recent.unshift(t);try{localStorage.setItem("vh_recent_searches",JSON.stringify(recent.slice(0,8)))}catch(_){}}
   const fields=m=>[m.title,m.genre,m.cast,m.director,m.industry,m.language,m.year,m.type,m.rating,m.description].join(" ").toLowerCase();
   const matches=data.filter(m=>fields(m).includes(t));
-  host.innerHTML='<p class="search-hint">'+matches.length+' result(s)</p>'+(matches.map(m=>'<button class="search-result" onclick="toggleSearch();openMovie(\''+safe(m.id)+'\')"><img src="'+safe(m.poster)+'" alt="" loading="lazy"><span>'+safe(m.title)+'<small>'+safe([m.year,m.type,m.genre,m.language,m.director].filter(Boolean).join(" · "))+'</small></span></button>').join("")||'<div class="empty-state"><h3>No matching titles</h3><p>Try a different actor, director, genre, language or year.</p></div>');
+  host.innerHTML='<p class="search-hint">'+matches.length+' result(s)</p>'+(matches.map(m=>'<button class="search-result" onclick="toggleSearch();openMovie(\''+safe(m.id)+'\')">'+(m.poster?'<img src="'+safe(m.poster)+'" alt="" loading="lazy">':'<span class="poster-empty" style="width:48px;height:65px;display:grid;place-items:center;font-size:.7rem;">🎬</span>')+'<span>'+safe(m.title)+'<small>'+safe([m.year,m.type,m.genre,m.language,m.director].filter(Boolean).join(" · "))+'</small></span></button>').join("")||'<div class="empty-state"><h3>No matching titles</h3><p>Try a different actor, director, genre, language or year.</p></div>');
 };
 window.toggleMenu=()=> $("navLinks")?.classList.toggle("open");
 window.submitRequest=e=>{e.preventDefault();const r={title:$("reqTitle").value.trim(),type:$("reqType").value,year:$("reqYear").value,language:$("reqLang").value,notes:$("reqNotes").value,date:new Date().toLocaleDateString()};let a=getList("vh_requests");a.unshift(r);setList("vh_requests",a);$("reqTitle").value="";$("reqNotes").value="";renderRequests();toast("Saved on this device. Backend setup is needed for team review.")};
@@ -417,40 +417,12 @@ window.toggleMovieDetails=()=>{
  const compactPoster=$("vhMovieCompactPoster");if(compactPoster&&current)compactPoster.innerHTML=current.poster?'<img src="'+safe(current.poster)+'" alt="">':"";
 };
 
-// BunnyHub Guest Mode Engine
-window.enableGuestMode = function() {
-  window.VH_ROLE = "guest";
-  window.VH_USER_ID = null;
-  localStorage.setItem("bunnyhub_guest_mode", "true");
-  if (typeof toast === "function") {
-    toast("Browsing as Guest in Anonymous Mode. No personal info tracked!");
-  } else {
-    alert("Browsing as Guest in Anonymous Mode. No personal info tracked!");
+document.addEventListener("error", event => {
+  const img = event.target;
+  if (img && img.tagName === "IMG" && img.dataset?.vhPoster === "1") {
+    const empty = document.createElement("div");
+    empty.className = "poster-empty";
+    empty.textContent = "Poster unavailable";
+    img.replaceWith(empty);
   }
-  if (typeof showPage === "function") {
-    showPage("home");
-  }
-};
-
-// BunnyHub 3-Layer Download Interceptor
-window.downloadMovie = function(videoId, title) {
-  // Check if valid 24hr key exists
-  try {
-    const saved = JSON.parse(localStorage.getItem("bunnyhub_download_key") || "{}");
-    if (saved && saved.key && saved.expiresAt > Date.now()) {
-      // Key is valid! Open direct verified download modal
-      const modal = document.getElementById("downloadModal");
-      if (modal) {
-        modal.classList.add("open");
-        const meta = document.getElementById("dlModalMeta");
-        if (meta) meta.innerHTML = `<span style="color:#10b981;font-weight:700;"><i class="fas fa-key"></i> 24-Hour Key Active: ${saved.key}</span>`;
-      }
-      return;
-    }
-  } catch (e) {}
-
-  // Otherwise, route user through the 3-Layer Ad Verification Gateway
-  const vId = videoId || (window.currentMovie && window.currentMovie.id) || "stream";
-  const vTitle = encodeURIComponent(title || (window.currentMovie && window.currentMovie.title) || "Movie");
-  window.location.href = `/download-verify.html?video_id=${vId}&title=${vTitle}`;
-};
+}, true);

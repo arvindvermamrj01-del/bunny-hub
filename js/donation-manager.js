@@ -27,8 +27,10 @@
       qr.classList.toggle("hidden",!validQr);fallback.classList.toggle("hidden",validQr);
       if(validQr)qr.src=qrUrl;else{qr.removeAttribute("src");fallback.querySelector("span")?.replaceChildren(document.createTextNode(valid?"QR image is not configured. Use the UPI app button below.":"UPI payment details will appear here when configured."));}
     }
+    const form=$("donationForm");
+    if(form)form.classList.toggle("hidden",!valid);
     if(submit)submit.disabled=!valid;
-    if(!valid)setStatus("Configure a valid UPI ID in Admin → Platform Settings before accepting contributions.",true);
+    if(!valid)setStatus("UPI donations are currently unavailable until configured by the administrator.",true);
     else setStatus("After paying in your UPI app, submit the transaction reference. It will remain pending until manually verified.");
   }
   let donationScrollY=0;
