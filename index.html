@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -80,23 +80,7 @@
           </div>
         </div>
         
-        <!-- Authenticated User Menu (Only for regular users) -->
-        <div id="userNav" class="user-nav hidden">
-          <button class="user-avatar" id="userAvatar" type="button" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" aria-controls="userDropdown">U</button>
-          <div class="dropdown-menu" id="userDropdown">
-            <a onclick="showPage('profile')"><i class="fas fa-user"></i> My Profile</a>
-            <a onclick="showPage('watchlist')"><i class="fas fa-heart"></i> Watchlist</a>
-            <a onclick="showPage('request')"><i class="fas fa-paper-plane"></i> My Requests</a>
-            <a onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            <a onclick="logoutAllDevices()"><i class="fas fa-shield-alt"></i> Logout All Devices</a>
-          </div>
-        </div>
-
-        <!-- Guest User Auth Buttons (Signup / Login) -->
-        <div id="authNav">
-          <button class="btn-login" onclick="showPage('login')">Login</button>
-          <button class="btn-signup" onclick="showPage('register')">Sign Up</button>
-        </div>
+        <!-- Public site: no user login/signup buttons -->
 
         <!-- Mobile Hamburger Toggle -->
         <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle Navigation">
@@ -506,105 +490,7 @@
       </section>
     </div>
 
-    <!-- 6. USER PROFILE PAGE -->
-    <div id="page-profile" class="page">
-      <div class="page-header-banner">
-        <h1>👤 My Account</h1>
-        <p>Manage your profile, account preferences and watch records</p>
-      </div>
-      <section class="section">
-        <div class="profile-container">
-          <div class="profile-card">
-            <div class="profile-avatar" id="profileAvatar">U</div>
-            <h2 id="profileName">Username</h2>
-            <p id="profileEmail">user@example.com</p>
-            <div class="profile-stats">
-              <div class="stat"><span id="statWatchlist">0</span><small>Watchlist</small></div>
-              <div class="stat"><span id="statRequests">0</span><small>Requests</small></div>
-              <div class="stat"><span id="statJoined">-</span><small>Joined</small></div>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 20px;">
-              <button class="btn-primary full-width" onclick="logoutUser()">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </button>
-              <button class="btn-delete full-width" onclick="logoutAllDevices()" style="padding: 10px; border-radius: 8px;">
-                <i class="fas fa-shield-alt"></i> Logout from All Devices
-              </button>
-            </div>
-          </div>
-          <div class="profile-watchlist">
-            <h3>⚙️ Account Settings</h3>
-            <form id="userProfileForm" class="admin-form">
-              <div class="form-group"><label for="userProfileName">Display name</label><input id="userProfileName" type="text" maxlength="100" autocomplete="name" required/></div>
-              <button type="submit" class="btn-primary full-width">Save Profile</button>
-            </form>
-            <form id="userPasswordForm" class="admin-form" style="margin-top:16px;">
-              <h3>Change Password</h3>
-              <div class="form-group"><label for="userCurrentPassword">Current password</label><input id="userCurrentPassword" type="password" autocomplete="current-password" required/></div>
-              <div class="form-group"><label for="userNewPassword">New password</label><input id="userNewPassword" type="password" autocomplete="new-password" minlength="8" required/></div>
-              <div class="form-group"><label for="userConfirmPassword">Confirm new password</label><input id="userConfirmPassword" type="password" autocomplete="new-password" minlength="8" required/></div>
-              <button type="submit" class="btn-primary full-width">Update Password</button>
-            </form>
-          </div>
-          <div class="profile-watchlist">
-            <h3>❤️ Saved in Watchlist</h3>
-            <div class="movies-grid" id="profileWatchlistGrid"></div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- USER AUTHENTICATION -->
-    <div id="page-login" class="page">
-      <div class="auth-container">
-        <div class="auth-box">
-          <div class="auth-brand">🎬 BunnyHub</div>
-          <h1>Welcome Back</h1>
-          <p class="auth-sub">Sign in to sync your watchlist and continue watching across devices.</p>
-          <form id="userLoginForm">
-            <div class="form-group"><label for="userLoginEmail">Email address</label><input id="userLoginEmail" type="email" autocomplete="username" required/></div>
-            <div class="form-group"><label for="userLoginPassword">Password</label><input id="userLoginPassword" type="password" autocomplete="current-password" required/></div>
-            <button type="submit" class="btn-primary full-width">Sign In</button>
-          </form>
-          <p class="auth-sub"><a href="#" id="forgotPasswordLink">Forgot password?</a></p>
-          <p class="auth-sub">New to BunnyHub? <a href="#" onclick="showPage('register');return false;">Create an account</a></p>
-          <button type="button" class="btn-download full-width" onclick="showPage('home')">Continue as Guest</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="page-reset-password" class="page">
-      <div class="auth-container">
-        <div class="auth-box">
-          <div class="auth-brand">🎬 BunnyHub</div>
-          <h1>Set a New Password</h1>
-          <p class="auth-sub">Choose a new secure password for your account.</p>
-          <form id="userResetPasswordForm">
-            <div class="form-group"><label for="resetNewPassword">New password</label><input id="resetNewPassword" type="password" autocomplete="new-password" minlength="8" required/></div>
-            <div class="form-group"><label for="resetConfirmPassword">Confirm new password</label><input id="resetConfirmPassword" type="password" autocomplete="new-password" minlength="8" required/></div>
-            <button type="submit" class="btn-primary full-width">Save New Password</button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div id="page-register" class="page">
-      <div class="auth-container">
-        <div class="auth-box">
-          <div class="auth-brand">🎬 BunnyHub</div>
-          <h1>Create Your Account</h1>
-          <p class="auth-sub">Your account keeps your watchlist and viewing progress synced.</p>
-          <form id="userRegisterForm">
-            <div class="form-group"><label for="userRegisterName">Full name</label><input id="userRegisterName" type="text" autocomplete="name" maxlength="100" required/></div>
-            <div class="form-group"><label for="userRegisterEmail">Email address</label><input id="userRegisterEmail" type="email" autocomplete="email" required/></div>
-            <div class="form-group"><label for="userRegisterPassword">Password</label><input id="userRegisterPassword" type="password" autocomplete="new-password" minlength="8" required/><small>Use at least 8 characters.</small></div>
-            <div class="form-group"><label for="userRegisterConfirm">Confirm password</label><input id="userRegisterConfirm" type="password" autocomplete="new-password" minlength="8" required/></div>
-            <button type="submit" class="btn-primary full-width">Create Account</button>
-          </form>
-          <p class="auth-sub">Already registered? <a href="#" onclick="showPage('login');return false;">Sign in</a></p>
-        </div>
-      </div>
-    </div>
+    <!-- Public site: user account / login / signup pages permanently removed -->
 
     <!-- 9. RESTRICTED ADMIN LOGIN PAGE -->
     <!-- Accessible strictly via #control-center or Ctrl+Shift+A; never linked in public navbar -->
@@ -1689,7 +1575,6 @@
 <script src="js/supabase-config.js"></script>
 <script src="js/supabase-auth.js?v=20261120-7"></script>
 <script src="js/account-data.js"></script>
-<script src="js/account-portal.js"></script>
 <script src="js/app.js?v=20261120-12"></script>
 <script src="js/posts-public.js?v=20261121-2"></script>
 <script src="js/analytics.js"></script>
