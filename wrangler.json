@@ -14,7 +14,7 @@
     {
       "binding": "VH_SECURITY_DB",
       "database_name": "bunnyhub-security",
-      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+      "database_id": "7a08a64b-18f6-4765-aa00-b514109a7d29"
     }
   ]
 }
