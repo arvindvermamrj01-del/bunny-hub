@@ -1,6 +1,6 @@
 /* Public Supabase client configuration (frozen against runtime tampering). */
 Object.defineProperty(window, "VH_SUPABASE_URL", {
-  value: "https://gspkgdpkysfzjeqevsja.supabase.co/rest/v1/",
+  value: "https://gspkgdpkysfzjeqevsja.supabase.co",
   writable: false,
   configurable: false
 });
