@@ -1,24 +1,21 @@
-﻿/* BunnyHub appearance system: original HyperOS/ColorOS-inspired themes. */
+﻿/* BunnyHub appearance system: 5 trending themes. */
 (() => {
   "use strict";
   const root=document.documentElement;
   const key="vh_theme_preference";
   const themes={
-    hyperos:{label:"Xiaomi HyperOS 4",theme:"hyperos"},
-    miuiOneUi:{label:"MIUI × One UI 9 Blend",theme:"miui-oneui"},
-    oneui:{label:"Samsung One UI 9",theme:"oneui"},
-    oxygenos:{label:"OxygenOS 16",theme:"oxygenos"},
-    hydrogenos:{label:"HydrogenOS Heritage",theme:"hydrogenos"},
-    coloros:{label:"ColorOS 17",theme:"coloros"},
-    amoled:{label:"AMOLED Black",theme:"amoled"},
-    light:{label:"Light Glass",theme:"light"}
+    cyberpunk:{label:"Cyberpunk Neon",theme:"cyberpunk",color:"#070812"},
+    obsidian:{label:"Obsidian Noir",theme:"obsidian",color:"#030305"},
+    chroma:{label:"AI Chroma Glitch",theme:"chroma",color:"#090614"},
+    solarize:{label:"Solarize Minimal",theme:"solarize",color:"#0b0f14"},
+    quantum:{label:"Quantum Frost",theme:"quantum",color:"#071121"}
   };
   const panel=()=>document.getElementById("themePanel");
   const apply=value=>{
-    const selected=themes[value]?value:"coloros";
+    const selected=themes[value]?value:"cyberpunk";
     root.dataset.vhTheme=themes[selected].theme||selected;
-    root.dataset.theme=selected==="light"?"light":"dark";
-    root.style.colorScheme=selected==="light"?"light":"dark";
+    root.dataset.theme="dark";
+    root.style.colorScheme="dark";
     try{localStorage.setItem(key,selected);}catch(_){}
     document.querySelectorAll("[data-theme-choice]").forEach(button=>{
       const active=button.dataset.themeChoice===selected;
@@ -28,8 +25,7 @@
     const label=document.getElementById("themeCurrentLabel");
     if(label)label.textContent=themes[selected].label;
     const meta=document.querySelector('meta[name="theme-color"]');
-    const themeColors={light:"#eef3fb",amoled:"#000000",coloros:"#071b2a",hyperos:"#0b1020",miuiOneUi:"#141e33",oneui:"#111827",oxygenos:"#10151d",hydrogenos:"#101820"};
-    if(meta)meta.content=themeColors[selected]||"#0b1020";
+    if(meta)meta.content=themes[selected].color||"#070812";
   };
   window.setVHTheme=apply;
   const isMobile=()=>window.matchMedia?.("(max-width:760px)")?.matches===true;
@@ -45,18 +41,18 @@
     setPanelOpen(!el.classList.contains("open"));
   };
   document.addEventListener("DOMContentLoaded",()=>{
-    /* Render the appearance chooser as a body-level popup so desktop fixed positioning is viewport-relative. */
     const appearancePanel=panel();
     if(appearancePanel&&appearancePanel.parentElement!==document.body)document.body.appendChild(appearancePanel);
-    let saved="coloros";
+    let saved="cyberpunk";
     try{
-      const migrationKey="vh_theme_coloros_default_migrated";
+      const migrationKey="vh_theme_trending5_migrated";
       if(!localStorage.getItem(migrationKey)){
-        const previous=localStorage.getItem(key);
-        if(!previous||previous==="hyperos")localStorage.setItem(key,localStorage.getItem("vh_theme")==="light"?"light":"coloros");
+        const prev=localStorage.getItem(key);
+        if(!themes[prev])localStorage.setItem(key,"cyberpunk");
         localStorage.setItem(migrationKey,"1");
       }
-      saved=localStorage.getItem(key)||(localStorage.getItem("vh_theme")==="light"?"light":"coloros");
+      const raw=localStorage.getItem(key);
+      saved=themes[raw]?raw:"cyberpunk";
     }catch(_){}
     apply(saved);
     document.querySelectorAll("[data-theme-choice]").forEach(button=>{

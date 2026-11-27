@@ -13,7 +13,7 @@
     } catch (_) { return null; }
   }
 
-  const providers = ["backblaze_b2", "cloudflare_r2", "supabase", "google_drive", "pixeldrain", "telegram"];
+  const providers = ["backblaze_b2", "youtube_unlisted", "cloudflare_r2", "supabase", "google_drive", "pixeldrain", "telegram", "terabox", "mega", "dropbox"];
 
   const isAdmin = async () => {
     const { data: { user }, error } = await db.auth.getUser();
@@ -98,6 +98,31 @@
       if (status) status.textContent = error.message || "Could not save storage settings.";
     } finally {
       if (button) button.disabled = false;
+    }
+  };
+
+  window.fixB2Cors = async function () {
+    const btn = $("fixB2CorsBtn");
+    const status = $("b2CorsFixStatus");
+    if (btn) btn.disabled = true;
+    if (status) status.textContent = "Updating Backblaze B2 CORS rules (allowing s3_put for browser uploads)…";
+    try {
+      await isAdmin();
+      const { data: { session }, error: sessionError } = await db.auth.getSession();
+      if (sessionError || !session?.access_token) throw new Error("Admin session expired. Sign in again.");
+      const response = await fetch("/api/media/fix-b2-cors", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + session.access_token, "Content-Type": "application/json" }
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.ok) throw new Error(result.error || "Failed to update Backblaze B2 CORS rules.");
+      if (status) status.textContent = "✅ " + (result.message || "B2 CORS rules updated! Wait ~60 seconds and try uploading.");
+      if (typeof window.toast === "function") window.toast("B2 Upload CORS updated!");
+    } catch (error) {
+      if (status) status.textContent = "❌ " + (error.message || "B2 CORS update failed.");
+      if (typeof window.toast === "function") window.toast(error.message || "B2 CORS update failed.");
+    } finally {
+      if (btn) btn.disabled = false;
     }
   };
 

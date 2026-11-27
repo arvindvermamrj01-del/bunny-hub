@@ -64,7 +64,7 @@
       console.error("BunnyHub page router failed:", error);
     }
     let resolved = requested;
-    if (requested === "profile" && !window.VH_USER_ID) resolved = "login";
+    if (["login", "register", "reset-password", "profile"].includes(requested)) resolved = "home";
     if (requested === "admin" && !window.VH_IS_ADMIN) resolved = "admin-login";
     const target = document.getElementById("page-" + resolved);
     if (!target) return false;
@@ -73,7 +73,7 @@
       section.classList.toggle("active", active);
       section.style.setProperty("display", active ? "block" : "none", "important");
     });
-    const privatePages = ["login", "register", "reset-password", "admin-login", "admin"];
+    const privatePages = ["admin-login", "admin"];
     document.body.classList.toggle("vh-sidebar-hidden", privatePages.includes(resolved));
     document.getElementById("navLinks")?.classList.remove("open");
     if (document.getElementById("movieModal")?.classList.contains("open")) window.closeModalBtn?.();
@@ -181,39 +181,38 @@
     }
   }
 
-  function setUserDropdownOpen(open) {
-    const button = document.getElementById("userAvatar");
-    const menu = document.getElementById("userDropdown");
-    if (!button || !menu) return;
-    menu.classList.toggle("open", !!open);
-    button.setAttribute("aria-expanded", open ? "true" : "false");
-  }
-
-  function bindUserDropdown() {
-    const nav = document.getElementById("userNav");
-    const button = document.getElementById("userAvatar");
-    const menu = document.getElementById("userDropdown");
-    if (!nav || !button || !menu || nav.dataset.vhMenuBound === "1") return;
-    nav.dataset.vhMenuBound = "1";
-    button.addEventListener("click", event => {
-      event.preventDefault();
-      event.stopPropagation();
-      setUserDropdownOpen(!menu.classList.contains("open"));
-    });
-    menu.addEventListener("click", event => { if (event.target.closest("a")) setUserDropdownOpen(false); });
-    document.addEventListener("pointerdown", event => { if (!nav.contains(event.target)) setUserDropdownOpen(false); });
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && menu.classList.contains("open")) {
-        setUserDropdownOpen(false);
-        button.focus();
-      }
-    });
+  function initRubikCube() {
+    const cube = document.getElementById("vhRubikCube");
+    if (!cube) return;
+    const palettes = [
+      ["#00f0ff", "#ff2a85", "#ffbe0b", "#38ef7d", "#f8fafc", "#7c3aed"],
+      ["#e5a93c", "#dc2626", "#f59e0b", "#334155", "#f1f5f9", "#991b1b"],
+      ["#a855f7", "#14b8a6", "#ec4899", "#22d3ee", "#f8fafc", "#6366f1"],
+      ["#f59e0b", "#ea580c", "#fbbf24", "#10b981", "#fef3c7", "#0284c7"],
+      ["#60a5fa", "#38bdf8", "#818cf8", "#2dd4bf", "#f0f9ff", "#1d4ed8"]
+    ];
+    let pIndex = 0;
+    const applyPalette = () => {
+      const p = palettes[pIndex % palettes.length];
+      p.forEach((c, i) => cube.style.setProperty("--vh-cube-" + (i + 1), c));
+      pIndex++;
+    };
+    applyPalette();
+    setInterval(() => {
+      cube.classList.add("is-scrambled");
+      setTimeout(() => {
+        cube.classList.remove("is-scrambled");
+        cube.classList.add("is-solving");
+        applyPalette();
+        setTimeout(() => cube.classList.remove("is-solving"), 700);
+      }, 1400);
+    }, 5200);
   }
 
   function init() {
     createDock();
     bindDesktopSidebar();
-    bindUserDropdown();
+    initRubikCube();
     document.addEventListener("BunnyHub:page-changed", event => sync(event.detail?.name || "home"));
     window.addEventListener("hashchange", () => sync(location.hash.replace(/^#/, "") || "home"));
     const hash = location.hash.replace(/^#/, "");

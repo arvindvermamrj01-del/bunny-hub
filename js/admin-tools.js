@@ -252,6 +252,8 @@
       const settings={
         site_name:$("settingSiteName")?.value.trim()||"BunnyHub",
         telegram_url:$("settingTelegram")?.value.trim()||"",
+        dmca_email:$("settingDmcaEmail")?.value.trim()||"bunnyhub.proton@gmail.com",
+        imagekit_url:$("settingImagekitUrl")?.value.trim().replace(/\/+$/,"")||"",
         seo_description:$("settingSeo")?.value.trim()||"",
         maintenance_mode:$("settingMaintenance")?.value||"off",
         donation_upi_id:$("settingDonationUpi")?.value.trim()||"",
@@ -260,8 +262,14 @@
         ads_enabled:$("settingAdsEnabled")?.value||"off",
         adsense_publisher_id:$("settingAdsPublisher")?.value.trim()||"",
         adsense_slot_home:$("settingAdsSlotHome")?.value.trim()||"",
-        adsense_slot_footer:$("settingAdsSlotFooter")?.value.trim()||""
+        adsense_slot_footer:$("settingAdsSlotFooter")?.value.trim()||"",
+        ad_network_mode:$("settingAdNetwork")?.value||"off",
+        ad_delay_sec:String(Math.max(0,Math.min(120,Number($("settingAdDelaySec")?.value||5)))),
+        ad_frequency_min:String(Math.max(0,Math.min(1440,Number($("settingAdFrequencyMin")?.value||15)))),
+        custom_ad_script:$("settingCustomAdScript")?.value.trim()||""
       };
+      if(settings.dmca_email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(settings.dmca_email))throw new Error("Enter a valid DMCA contact email address.");
+      if(settings.imagekit_url){let ik;try{ik=new URL(settings.imagekit_url);}catch(_){throw new Error("ImageKit CDN URL must be a valid HTTPS URL.");}if(ik.protocol!=="https:")throw new Error("ImageKit CDN URL must start with https://");}
       const vpa=settings.donation_upi_id;
       if(vpa&&!/^[A-Za-z0-9._-]{2,128}@[A-Za-z0-9.-]{2,64}$/.test(vpa))throw new Error("Enter a valid UPI ID (example: name@upi).");
       if(settings.donation_qr_url){let qr;try{qr=new URL(settings.donation_qr_url);}catch(_){throw new Error("Donation QR must be a valid HTTPS image URL.");}if(qr.protocol!=="https:"||qr.username||qr.password)throw new Error("Donation QR must use a public HTTPS URL.");}
@@ -281,6 +289,8 @@
       const map=Object.fromEntries((data||[]).map(x=>[x.setting_key,x.setting_value]));
       if($("settingSiteName")&&map.site_name)$("settingSiteName").value=map.site_name;
       if($("settingTelegram")&&map.telegram_url)$("settingTelegram").value=map.telegram_url;
+      if($("settingDmcaEmail"))$("settingDmcaEmail").value=map.dmca_email||"bunnyhub.proton@gmail.com";
+      if($("settingImagekitUrl"))$("settingImagekitUrl").value=map.imagekit_url||"";
       if($("settingSeo")&&map.seo_description)$("settingSeo").value=map.seo_description;
       if($("settingMaintenance")&&map.maintenance_mode)$("settingMaintenance").value=map.maintenance_mode;
       if($("settingDonationUpi"))$("settingDonationUpi").value=map.donation_upi_id||"";
@@ -290,6 +300,10 @@
       if($("settingAdsPublisher"))$("settingAdsPublisher").value=map.adsense_publisher_id||"";
       if($("settingAdsSlotHome"))$("settingAdsSlotHome").value=map.adsense_slot_home||"";
       if($("settingAdsSlotFooter"))$("settingAdsSlotFooter").value=map.adsense_slot_footer||"";
+      if($("settingAdNetwork"))$("settingAdNetwork").value=map.ad_network_mode||"off";
+      if($("settingAdDelaySec"))$("settingAdDelaySec").value=map.ad_delay_sec||"5";
+      if($("settingAdFrequencyMin"))$("settingAdFrequencyMin").value=map.ad_frequency_min||"15";
+      if($("settingCustomAdScript"))$("settingCustomAdScript").value=map.custom_ad_script||"";
     }catch(e){console.warn("Site settings not loaded:",e.message);}
   }
 

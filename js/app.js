@@ -12,7 +12,8 @@ const saveWatchlist=(items,userId=window.VH_USER_ID)=>window.VH_ACCOUNT_DATA?.wr
 const progressStorageKey=(id,userId=window.VH_USER_ID)=>window.VH_ACCOUNT_DATA?.progressKey(id,userId)||"vh_progress_"+String(id);
 function toast(msg){const el=$("toast");if(!el)return;el.textContent=msg;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),2800)}
 function card(m){
-const poster=m.poster?'<img loading="lazy" data-vh-poster="1" src="'+safe(m.poster)+'" alt="'+safe(m.title)+' poster">':'<div class="poster-empty">Poster unavailable</div>';
+const optPoster=window.vhOptimizeImage?window.vhOptimizeImage(m.poster):m.poster;
+const poster=optPoster?'<img loading="lazy" data-vh-poster="1" src="'+safe(optPoster)+'" alt="'+safe(m.title)+' poster">':'<div class="poster-empty">Poster unavailable</div>';
 const meta=[m.year,m.genre,m.rating?'★ '+m.rating:'',m.view_count?'🔥 '+Number(m.view_count).toLocaleString('en-IN')+' views':''].filter(Boolean).join(' · ');
 return '<article class="movie-card"><button class="poster-button" onclick="openMovie(&quot;'+safe(m.id)+'&quot;)" aria-label="View '+safe(m.title)+'">'+poster+'<span class="poster-play"><i class="fas fa-play"></i></span></button><div class="movie-info"><h3>'+safe(m.title)+'</h3><p>'+safe(meta)+'</p><div class="card-actions"><button onclick="openMovie(&quot;'+safe(m.id)+'&quot;)">Details</button><button onclick="toggleItem(&quot;'+safe(m.id)+'&quot;)" aria-label="Add to watchlist">♡</button></div></div></article>';
 }
@@ -32,7 +33,8 @@ function hero(){
   return;
  }
  current=m;
- if($("heroBg"))$("heroBg").style.backgroundImage=(m.backdrop||m.poster)?`url("${m.backdrop||m.poster}")`:"none";
+ const heroArt=window.vhOptimizeImage?window.vhOptimizeImage(m.backdrop||m.poster):(m.backdrop||m.poster);
+ if($("heroBg"))$("heroBg").style.backgroundImage=heroArt?`url("${heroArt}")`:"none";
  if($("heroTitle"))$("heroTitle").textContent=m.title;
  if($("heroDesc"))$("heroDesc").textContent=m.description||"";
  if($("heroMeta"))$("heroMeta").textContent=[m.year,m.duration,m.rating?"★ "+m.rating:""].filter(Boolean).join(" · ");
@@ -138,12 +140,12 @@ renderWatchlist();hero();
 }
 window.renderBunnyHub=render;
 window.showPage=name=>{
-if(name==="profile"&&!window.VH_USER_ID){name="login";}
+if(["login","register","reset-password","profile"].includes(name)){name="home";}
 if(name==="admin"&&!window.VH_IS_ADMIN){
   window.VHLoginActivity?.log?.("unauthorized_admin_page_access");
   name="admin-login";
 }
-document.body.classList.toggle("vh-sidebar-hidden",["login","register","reset-password","admin-login","admin"].includes(name));
+document.body.classList.toggle("vh-sidebar-hidden",["admin-login","admin"].includes(name));
 document.querySelectorAll(".page").forEach(p=>{
   const active=p.id==="page-"+name;
   p.classList.toggle("active",active);
@@ -151,8 +153,8 @@ document.querySelectorAll(".page").forEach(p=>{
 });
 document.querySelectorAll(".nav-link").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+name));
 $("navLinks")?.classList.remove("open");
-const pageTitles={home:"BunnyHub | Movies, Web Series & Shorts",movies:"All Movies | BunnyHub",series:"Web Series | BunnyHub",shows:"TV Shows | BunnyHub",shorts:"Shorts | BunnyHub",songs:"Songs & Music | BunnyHub",watchlist:"My Watchlist | BunnyHub",request:"Request Content | BunnyHub",community:"Community | BunnyHub",feedback:"Feedback & Support | BunnyHub",privacy:"Privacy Policy | BunnyHub",terms:"Terms of Use | BunnyHub",copyright:"Copyright Policy | BunnyHub",profile:"My Account | BunnyHub",login:"Sign In | BunnyHub",register:"Create Account | BunnyHub","reset-password":"Reset Password | BunnyHub","admin-login":"Admin Login | BunnyHub",admin:"Control Center | BunnyHub"};
- const pageDescriptions={home:"Discover authorised movies, web series and shorts on BunnyHub.",movies:"Browse the BunnyHub movie catalog by genre, language and year.",series:"Explore web series available in the BunnyHub catalog.",shows:"Explore TV shows, standalone shows and documentaries on BunnyHub.",shorts:"Watch short-form videos published on BunnyHub.",songs:"Listen to authorised music on BunnyHub.",watchlist:"Your saved BunnyHub watchlist.",request:"Send a movie or series request to the BunnyHub team.",community:"Follow the BunnyHub roadmap and approved community improvements.",feedback:"Send a feature suggestion, report a bug or share feedback with the BunnyHub team.",privacy:"Learn how BunnyHub handles account, usage, storage and donation information.",terms:"Terms for using BunnyHub accounts, media and community features.",copyright:"BunnyHub content ownership, licensing and copyright complaint policy.",profile:"Manage your BunnyHub profile, password, watchlist and requests.",login:"Sign in to sync your watchlist and playback progress.",register:"Create a BunnyHub account to sync your watchlist and viewing progress.","reset-password":"Set a new password for your BunnyHub account.","admin-login":"Restricted BunnyHub staff sign in.",admin:"BunnyHub Control Center."};
+const pageTitles={home:"BunnyHub | Movies, Web Series & Shorts",movies:"All Movies | BunnyHub",series:"Web Series | BunnyHub",shows:"TV Shows | BunnyHub",shorts:"Shorts | BunnyHub",songs:"Songs & Music | BunnyHub",watchlist:"My Watchlist | BunnyHub",request:"Request Content | BunnyHub",community:"Community | BunnyHub",feedback:"Feedback & Support | BunnyHub",privacy:"Privacy Policy | BunnyHub",terms:"Terms of Use | BunnyHub",copyright:"Copyright Policy | BunnyHub","admin-login":"Admin Login | BunnyHub",admin:"Control Center | BunnyHub"};
+ const pageDescriptions={home:"Discover authorised movies, web series and shorts on BunnyHub.",movies:"Browse the BunnyHub movie catalog by genre, language and year.",series:"Explore web series available in the BunnyHub catalog.",shows:"Explore TV shows, standalone shows and documentaries on BunnyHub.",shorts:"Watch short-form videos published on BunnyHub.",songs:"Listen to authorised music on BunnyHub.",watchlist:"Your saved BunnyHub watchlist.",request:"Send a movie or series request to the BunnyHub team.",community:"Follow the BunnyHub roadmap and approved community improvements.",feedback:"Send a feature suggestion, report a bug or share feedback with the BunnyHub team.",privacy:"Learn how BunnyHub handles usage, storage and donation information.",terms:"Terms for using BunnyHub media and community features.",copyright:"BunnyHub content ownership, licensing and copyright complaint policy.","admin-login":"Restricted BunnyHub staff sign in.",admin:"BunnyHub Control Center."};
  document.title=pageTitles[name]||"BunnyHub";
  const metaDescription=document.querySelector('meta[name="description"]');
  if(metaDescription)metaDescription.content=pageDescriptions[name]||pageDescriptions.home;
@@ -165,7 +167,7 @@ if(name==="watchlist")renderWatchlist();
  document.dispatchEvent(new CustomEvent("BunnyHub:page-changed",{detail:{name}}));
 };
 window.openHiddenAdminLogin=()=>window.showPage("admin-login");
-const publicPageHashes=new Set(["home","movies","series","shows","shorts","songs","watchlist","request","community","feedback","privacy","terms","copyright","profile","login","register","reset-password","admin-login","admin"]);
+const publicPageHashes=new Set(["home","movies","series","shows","shorts","songs","watchlist","request","community","feedback","privacy","terms","copyright","admin-login","admin"]);
 window.addEventListener("hashchange",()=>{
   const target=location.hash.replace(/^#/,"");
   const movieMatch=target.match(/^movie-(.+)$/);

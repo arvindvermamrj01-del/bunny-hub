@@ -39,6 +39,30 @@
     return "https://pixeldrain.com/api/file/"+encodeURIComponent(id);
   };
   const storedProvider = provider => provider==="pixeldrain"?"direct":provider;
+  const youtubeVideoId = raw => {
+    try{
+      const u=new URL(String(raw||"").trim());
+      const host=u.hostname.toLowerCase().replace(/^www\./,"");
+      if(host==="youtu.be")return u.pathname.slice(1).split("/")[0]||"";
+      if(host==="youtube.com"||host==="m.youtube.com"||host==="youtube-nocookie.com"){
+        if(u.pathname==="/watch")return u.searchParams.get("v")||"";
+        const m=u.pathname.match(/^\/(?:embed|shorts|live)\/([A-Za-z0-9_-]{6,20})/);
+        if(m)return m[1];
+      }
+    }catch(_){}
+    return "";
+  };
+  const dropboxDirectUrl = raw => {
+    try{
+      const u=new URL(String(raw||"").trim());
+      if(u.hostname.toLowerCase().includes("dropbox.com")){
+        u.searchParams.delete("dl");
+        u.searchParams.set("raw","1");
+        return u.href;
+      }
+    }catch(_){}
+    return raw;
+  };
 
   async function requireAdmin() {
     const {data:{user},error} = await db.auth.getUser();
@@ -162,7 +186,12 @@
       });
       const signed=await response.json().catch(()=>({}));
       if(!response.ok||!signed.uploadUrl)throw new Error(signed.error||"Cloud storage upload could not be prepared.");
-      const uploadResponse=await fetch(signed.uploadUrl,{method:"PUT",headers:signed.headers||{"Content-Type":contentType},body:file});
+      let uploadResponse;
+      try{
+        uploadResponse=await fetch(signed.uploadUrl,{method:"PUT",headers:signed.headers||{"Content-Type":contentType},body:file});
+      }catch(_){
+        throw new Error("Cloud storage upload blocked (CORS). Backblaze B2 Bucket CORS Rules me s3_put aur https://bunny-hub.pages.dev allow karein.");
+      }
       if(!uploadResponse.ok)throw new Error("Cloud storage upload failed with HTTP "+uploadResponse.status+". Check bucket CORS and credentials.");
       return {path:signed.key,file,storage_provider:provider};
     }
@@ -555,6 +584,50 @@
     }
   }
 
+  window.autoFetchMetadata=async()=>{
+    const query=$("vhAutoFetchQuery")?.value.trim()||"";
+    const type=$("vhAutoFetchType")?.value==="tv"?"tv":"movie";
+    const status=$("vhAutoFetchStatus"),host=$("vhAutoFetchResults"),btn=$("vhAutoFetchBtn");
+    if(query.length<2){if(status)status.textContent="Kam se kam 2 letters ka title type karein.";return;}
+    if(btn)btn.disabled=true;
+    if(status)status.textContent="Searching AI / TMDB metadata…";
+    if(host)host.replaceChildren();
+    try{
+      const {data:{session}}=await db.auth.getSession();
+      if(!session?.access_token)throw new Error("Admin session expired. Sign in again.");
+      const response=await fetch("/api/tmdb/search?q="+encodeURIComponent(query)+"&type="+encodeURIComponent(type),{
+        headers:{"Authorization":"Bearer "+session.access_token}
+      });
+      const result=await response.json().catch(()=>({}));
+      if(!response.ok)throw new Error(result.error||"Metadata fetch failed.");
+      const items=result.results||[];
+      if(!items.length){if(status)status.textContent="Koi matching result nahi mila.";return;}
+      if(status)status.textContent="Result par click karein — details auto-fill ho jayengi:";
+      items.forEach(item=>{
+        const chip=document.createElement("button");
+        chip.type="button";
+        chip.className="btn-secondary";
+        chip.style.cssText="font-size:.82rem;padding:6px 10px;";
+        chip.textContent=item.title+(item.year?" ("+item.year+")":"");
+        chip.onclick=()=>{
+          if($("addTitle"))$("addTitle").value=item.title||"";
+          if($("addYear")&&item.year)$("addYear").value=item.year;
+          if($("addRating")&&item.rating)$("addRating").value=item.rating;
+          if($("addDesc")&&item.overview)$("addDesc").value=item.overview;
+          if($("addPoster")&&item.poster)$("addPoster").value=item.poster;
+          if($("addScreenshots")&&item.backdrop)$("addScreenshots").value=item.backdrop;
+          if($("addType"))$("addType").value=type==="tv"?"Web Series":"Movie";
+          if(status)status.textContent="Auto-filled: "+item.title;
+        };
+        host?.appendChild(chip);
+      });
+    }catch(error){
+      if(status)status.textContent=error.message||"Auto-Fetch failed.";
+    }finally{
+      if(btn)btn.disabled=false;
+    }
+  };
+
   window.addMovie=async event=>{
     event?.preventDefault();
     const form=event?.currentTarget||document.querySelector("#tab-add-movie form");
@@ -647,6 +720,38 @@
     const inline=Boolean(targetVideoId);
     const provider=String(asset.storage_provider||"supabase").toLowerCase();
     const targetVideo=inline?$(targetVideoId):null;
+    const ytId=youtubeVideoId(asset.url);
+    if(provider==="youtube_unlisted"||ytId){
+      const iframe=$(inline?"detailPlayerIframe":"playerIframe"),fallback=inline?null:$("playerFallback");
+      const embedUrl=ytId?"https://www.youtube-nocookie.com/embed/"+encodeURIComponent(ytId)+"?rel=0&modestbranding=1":"";
+      if(inline){
+        targetVideo?.pause();
+        if(targetVideo){targetVideo.removeAttribute("src");targetVideo.load();targetVideo.classList.add("hidden");}
+        $("detailPlayerEmpty")?.classList.add("hidden");
+        if(!embedUrl||!iframe){
+          $("detailPlayerEmpty").textContent="YouTube Unlisted URL invalid hai.";
+          $("detailPlayerEmpty")?.classList.remove("hidden");
+          $("detailPlayerStatus").textContent="Preview unavailable";
+          return;
+        }
+        activeVideo=null;
+        iframe.src=embedUrl;
+        iframe.classList.remove("hidden");
+        $("detailPlayerStatus").textContent="YouTube Unlisted Player";
+        $("detailSpeedWrap")?.classList.add("hidden");
+        $("detailSubtitleWrap")?.classList.add("hidden");
+        return;
+      }
+      if(!embedUrl||!iframe){window.open(asset.url,"_blank","noopener");return;}
+      const previousVideo=fallback?.querySelector("video");
+      if(previousVideo){previousVideo.pause();previousVideo.removeAttribute("src");previousVideo.load();}
+      activeVideo=null;
+      $("vhPlayerExtras")?.classList.add("hidden");
+      fallback?.classList.remove("active");
+      iframe.src=embedUrl;
+      iframe.classList.remove("hidden");
+      return;
+    }
     if(provider==="google_drive"){
       const id=googleDriveFileId(asset.storage_path||asset.url);
       const iframe=$(inline?"detailPlayerIframe":"playerIframe"),fallback=inline?null:$("playerFallback");
@@ -678,7 +783,8 @@
       iframe.classList.remove("hidden");
       return;
     }
-    if(provider!=="supabase" && provider!=="cloudflare_r2" && provider!=="backblaze_b2" && provider!=="direct"){
+    if(provider==="dropbox")asset={...asset,url:dropboxDirectUrl(asset.url)};
+    if(provider!=="supabase" && provider!=="cloudflare_r2" && provider!=="backblaze_b2" && provider!=="direct" && provider!=="dropbox"){
       if(inline){
         targetVideo?.pause();
         targetVideo?.classList.add("hidden");
