@@ -1,5 +1,5 @@
 /* Zero-dependency production build script for BunnyHub.
-   Copies public web assets into dist/ with CSS minification and safe JS formatting (no SQL/docs/source maps). */
+   Copies public web assets into dist/ with CSS minification and compact JS stripping (no SQL/docs/source maps). */
 import fs from "node:fs";
 import path from "node:path";
 
@@ -28,14 +28,12 @@ function minifyCss(css) {
     .trim();
 }
 
-function stripSafeJsLineComments(code) {
-  // Only remove standalone comment-only lines and blank lines (100% regex/string safe without an AST parser).
+function compactJs(code) {
   return code
+    .replace(/^\s*\/\*[\s\S]*?\*\/\s*$/gm, "")
     .split(/\r?\n/)
-    .filter(line => {
-      const trimmed = line.trim();
-      return trimmed.length > 0 && !trimmed.startsWith("//");
-    })
+    .map(line => line.trim())
+    .filter(line => line.length > 0 && !line.startsWith("//"))
     .join("\n") + "\n";
 }
 
@@ -57,7 +55,7 @@ for (const dir of PUBLIC_DIRS) {
     if (!fs.statSync(srcFile).isFile()) continue;
     const raw = fs.readFileSync(srcFile, "utf8");
     if (name.endsWith(".css")) fs.writeFileSync(dstFile, minifyCss(raw), "utf8");
-    else if (name.endsWith(".js")) fs.writeFileSync(dstFile, stripSafeJsLineComments(raw), "utf8");
+    else if (name.endsWith(".js")) fs.writeFileSync(dstFile, compactJs(raw), "utf8");
     else fs.copyFileSync(srcFile, dstFile);
   }
 }
