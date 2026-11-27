@@ -70,9 +70,13 @@ export async function onRequestPost({ request, env }) {
     return json({ cleared: true }, 200, { "Set-Cookie": clearAdminSessionCookie() });
   }
 
-  if (!env.VH_SECURITY_DB || !env.VH_ADMIN_SESSION_SECRET || !env.ADMIN_SECURITY_PIN) {
+  const missingConfig = [];
+  if (!env.VH_SECURITY_DB) missingConfig.push("VH_SECURITY_DB");
+  if (!env.VH_ADMIN_SESSION_SECRET) missingConfig.push("VH_ADMIN_SESSION_SECRET");
+  if (!env.ADMIN_SECURITY_PIN) missingConfig.push("ADMIN_SECURITY_PIN");
+  if (missingConfig.length) {
     return json({
-      error: "Double-layer Admin security gate is not fully configured (requires VH_SECURITY_DB, VH_ADMIN_SESSION_SECRET, ADMIN_SECURITY_PIN)."
+      error: "Double-layer Admin security gate is not fully configured (missing: " + missingConfig.join(", ") + ")."
     }, 503);
   }
 
@@ -145,6 +149,10 @@ export async function onRequestPost({ request, env }) {
       });
       const authData = await authResponse.json().catch(() => ({}));
       if (!authResponse.ok || !authData.access_token || !authData.refresh_token) {
+        const authErrText = String(authData?.message || authData?.msg || authData?.error_description || authData?.error || "");
+        if (/invalid api key|no api key/i.test(authErrText)) {
+          return json({ error: "Server Supabase configuration error: SUPABASE_ANON_KEY is invalid for SUPABASE_URL." }, 503);
+        }
         await db.prepare(
           "UPDATE vh_admin_login_attempts SET status='failed',finished_at=unixepoch(),account_email=? WHERE attempt_id=? AND ip_address=?"
         ).bind(resolvedEmail, attemptId, ip).run();
