@@ -1200,3 +1200,67 @@ body.vh-sidebar-expanded #vhAppSidebar .vh-sidebar-toggle{opacity:1}
   .nav-brand .vh-brand-motto{font-size:.37rem!important;letter-spacing:.035em!important}
 }
 
+
+/* ===== 3D RUBIK'S CUBE LOGO & NAVBAR GLASSMORPHIC GLOW ===== */
+.brand-icon.vh-rubik-wrap{background:transparent!important;border-color:rgba(255,255,255,.16)!important;box-shadow:0 0 18px var(--vh-glow,rgba(0,229,255,.28));overflow:visible!important;animation:none!important}
+.vh-rubik-scene{width:28px;height:28px;perspective:220px;display:grid;place-items:center}
+.vh-rubik-cube{position:relative;width:22px;height:22px;transform-style:preserve-3d;animation:vhRubikSpin 8s linear infinite}
+.vh-rubik-wrap:hover .vh-rubik-cube{animation-duration:2.8s}
+.vh-cube-face{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:1.5px;padding:1.5px;background:rgba(8,12,22,.9);border-radius:3px;backface-visibility:visible;border:1px solid rgba(255,255,255,.18)}
+.vh-cube-face span{border-radius:1.5px;transition:background .55s ease,transform .45s ease;box-shadow:inset 0 0 2px rgba(0,0,0,.45)}
+.vh-face-front{transform:translateZ(11px)}
+.vh-face-back{transform:rotateY(180deg) translateZ(11px)}
+.vh-face-right{transform:rotateY(90deg) translateZ(11px)}
+.vh-face-left{transform:rotateY(-90deg) translateZ(11px)}
+.vh-face-top{transform:rotateX(90deg) translateZ(11px)}
+.vh-face-bottom{transform:rotateX(-90deg) translateZ(11px)}
+.vh-face-front span{background:var(--vh-cube-1,#00f0ff)}
+.vh-face-back span{background:var(--vh-cube-2,#ff2a85)}
+.vh-face-right span{background:var(--vh-cube-3,#ffbe0b)}
+.vh-face-left span{background:var(--vh-cube-4,#38ef7d)}
+.vh-face-top span{background:var(--vh-cube-5,#f8fafc)}
+.vh-face-bottom span{background:var(--vh-cube-6,#7c3aed)}
+.vh-rubik-cube.is-scrambled .vh-cube-face span:nth-child(odd){background:var(--vh-cube-2,#ff2a85);transform:scale(.88)}
+.vh-rubik-cube.is-scrambled .vh-cube-face span:nth-child(3n){background:var(--vh-cube-3,#ffbe0b);transform:rotate(90deg) scale(.9)}
+.vh-rubik-cube.is-solving .vh-cube-face span{transform:scale(1.06);box-shadow:0 0 6px var(--vh-cube-1,#00f0ff)}
+@keyframes vhRubikSpin{
+  0%{transform:rotateX(-22deg) rotateY(0deg) rotateZ(0deg)}
+  50%{transform:rotateX(22deg) rotateY(180deg) rotateZ(12deg)}
+  100%{transform:rotateX(-22deg) rotateY(360deg) rotateZ(0deg)}
+}
+@media(max-width:760px){
+  .vh-rubik-scene{width:24px;height:24px}
+  .vh-rubik-cube{width:20px;height:20px}
+  .vh-face-front{transform:translateZ(10px)}
+  .vh-face-back{transform:rotateY(180deg) translateZ(10px)}
+  .vh-face-right{transform:rotateY(90deg) translateZ(10px)}
+  .vh-face-left{transform:rotateY(-90deg) translateZ(10px)}
+  .vh-face-top{transform:rotateX(90deg) translateZ(10px)}
+  .vh-face-bottom{transform:rotateX(-90deg) translateZ(10px)}
+}
+
+/* Glassmorphic Glow + Zoom on Navbar Icons */
+.nav-actions button,.nav-actions .btn-telegram-sm,.hamburger{transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-color .22s ease,background .22s ease!important}
+.nav-actions button:hover,.nav-actions .btn-telegram-sm:hover,.hamburger:hover{transform:translateY(-2px) scale(1.07)!important;box-shadow:0 0 20px var(--vh-glow,rgba(0,229,255,.38)),0 0 8px var(--vh-cyan-glow,rgba(0,229,255,.28))!important;border-color:rgba(255,255,255,.36)!important}
+
+/* ===== 5 TRENDING THEMES ===== */
+:root[data-vh-theme="cyberpunk"]{--accent:#00f0ff;--accent2:#ff2a85;--vh-glow:rgba(0,240,255,.38);--vh-cyan-glow:rgba(255,42,133,.34);--vh-surface:rgba(12,14,28,.82);--vh-surface-strong:rgba(9,11,22,.95);--vh-glass:rgba(0,240,255,.07);--vh-glass-line:rgba(0,240,255,.24);--bg:#070812;--bg-secondary:#101327}
+:root[data-vh-theme="cyberpunk"] body{background:radial-gradient(ellipse at 12% -10%,rgba(0,240,255,.16),transparent 46%),radial-gradient(ellipse at 88% 8%,rgba(255,42,133,.15),transparent 46%),#070812}
+
+:root[data-vh-theme="obsidian"]{--accent:#e5a93c;--accent2:#dc2626;--vh-glow:rgba(229,169,60,.34);--vh-cyan-glow:rgba(220,38,38,.3);--vh-surface:rgba(10,10,12,.88);--vh-surface-strong:rgba(5,5,7,.97);--vh-glass:rgba(255,255,255,.05);--vh-glass-line:rgba(229,169,60,.22);--bg:#030305;--bg-secondary:#0b0b0f}
+:root[data-vh-theme="obsidian"] body{background:radial-gradient(ellipse at 15% -10%,rgba(229,169,60,.12),transparent 44%),radial-gradient(ellipse at 85% 0%,rgba(220,38,38,.12),transparent 44%),#030305}
+
+:root[data-vh-theme="chroma"]{--accent:#a855f7;--accent2:#14b8a6;--vh-glow:rgba(168,85,247,.38);--vh-cyan-glow:rgba(20,184,166,.34);--vh-surface:rgba(17,12,31,.82);--vh-surface-strong:rgba(12,8,24,.95);--vh-glass:rgba(168,85,247,.08);--vh-glass-line:rgba(168,85,247,.26);--bg:#090614;--bg-secondary:#140e29}
+:root[data-vh-theme="chroma"] body{background:radial-gradient(ellipse at 10% -8%,rgba(168,85,247,.2),transparent 48%),radial-gradient(ellipse at 90% 10%,rgba(20,184,166,.16),transparent 46%),#090614}
+
+:root[data-vh-theme="solarize"]{--accent:#f59e0b;--accent2:#ea580c;--vh-glow:rgba(245,158,11,.32);--vh-cyan-glow:rgba(234,88,12,.26);--vh-surface:rgba(18,22,28,.86);--vh-surface-strong:rgba(13,17,22,.96);--vh-glass:rgba(245,158,11,.065);--vh-glass-line:rgba(245,158,11,.22);--bg:#0b0f14;--bg-secondary:#151b23}
+:root[data-vh-theme="solarize"] body{background:radial-gradient(ellipse at 14% -8%,rgba(245,158,11,.15),transparent 45%),radial-gradient(ellipse at 86% 12%,rgba(234,88,12,.12),transparent 45%),#0b0f14}
+
+:root[data-vh-theme="quantum"]{--accent:#60a5fa;--accent2:#38bdf8;--vh-glow:rgba(96,165,250,.36);--vh-cyan-glow:rgba(56,189,248,.34);--vh-surface:rgba(14,24,42,.82);--vh-surface-strong:rgba(9,17,32,.95);--vh-glass:rgba(96,165,250,.08);--vh-glass-line:rgba(147,197,253,.24);--bg:#071121;--bg-secondary:#0f1d35}
+:root[data-vh-theme="quantum"] body{background:radial-gradient(ellipse at 10% -8%,rgba(96,165,250,.2),transparent 46%),radial-gradient(ellipse at 90% 10%,rgba(56,189,248,.16),transparent 46%),#071121}
+
+.theme-swatch-cyberpunk{background:linear-gradient(135deg,#00f0ff,#ff2a85)}
+.theme-swatch-obsidian{background:linear-gradient(135deg,#050507,#e5a93c,#dc2626)}
+.theme-swatch-chroma{background:linear-gradient(135deg,#a855f7,#14b8a6)}
+.theme-swatch-solarize{background:linear-gradient(135deg,#0b0f14,#f59e0b,#ea580c)}
+.theme-swatch-quantum{background:linear-gradient(135deg,#071121,#60a5fa,#38bdf8)}
