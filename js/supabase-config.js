@@ -5,7 +5,7 @@ Object.defineProperty(window, "VH_SUPABASE_URL", {
   configurable: false
 });
 Object.defineProperty(window, "VH_SUPABASE_PUBLISHABLE_KEY", {
-  value: "sb_publishable_BdJpBQOi8IR0LQA6P8tkMw_CGoKllZ5",
+  value: "sb_publishable_KQOLYAHmrXJkof9IKBnZwA_5aHz5zjA",
   writable: false,
   configurable: false
 });
