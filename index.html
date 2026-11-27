@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -32,7 +32,18 @@
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
       <div class="nav-brand" onclick="showPage('home')" style="cursor: pointer;">
-        <span class="brand-icon"><svg class="vh-logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M7.5 9.5 18.5 38 27 18" fill="none" stroke="white" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 13.5 40 24 22 34.5Z" fill="white" stroke="rgba(255,255,255,.72)" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+        <span class="brand-icon vh-rubik-wrap" aria-hidden="true">
+          <span class="vh-rubik-scene">
+            <span class="vh-rubik-cube" id="vhRubikCube">
+              <span class="vh-cube-face vh-face-front"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+              <span class="vh-cube-face vh-face-back"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+              <span class="vh-cube-face vh-face-right"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+              <span class="vh-cube-face vh-face-left"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+              <span class="vh-cube-face vh-face-top"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+              <span class="vh-cube-face vh-face-bottom"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+            </span>
+          </span>
+        </span>
         <span class="vh-brand-lockup">
           <span class="brand-name"><span class="vh-brand-vision">BUNNY</span><span class="vh-brand-hub">HUB</span></span>
           <span class="vh-brand-motto">∞ STORIES WITHOUT LIMITS · @BunnyHub</span>
@@ -67,16 +78,13 @@
         <button class="btn-theme-toggle" id="themeToggle" type="button" onclick="toggleThemePanel()" aria-label="Choose appearance" aria-controls="themePanel" aria-expanded="false" title="Appearance"><i class="fas fa-palette"></i></button>
         <div class="theme-panel" id="themePanel" role="dialog" aria-label="Choose appearance" aria-hidden="true">
           <div class="theme-panel-head"><div><strong>Appearance</strong><small>Personalise your BunnyHub</small></div><button type="button" onclick="toggleThemePanel()" aria-label="Close appearance panel">×</button></div>
-          <p class="theme-current">Current style: <strong id="themeCurrentLabel">ColorOS 17</strong></p>
+          <p class="theme-current">Current style: <strong id="themeCurrentLabel">Cyberpunk Neon</strong></p>
           <div class="theme-options">
-            <button type="button" data-theme-choice="hyperos" aria-pressed="false"><span class="theme-swatch theme-swatch-hyper"></span><span><strong>Xiaomi HyperOS 4</strong><small>Soft light glass · Fluid depth</small></span><i class="fas fa-check"></i></button>
-            <button type="button" data-theme-choice="miuiOneUi" aria-pressed="false"><span class="theme-swatch theme-swatch-miui"></span><span><strong>MIUI × One UI 9 Blend</strong><small>Colourful cards · Rounded panels</small></span><i class="fas fa-check"></i></button>
-            <button type="button" data-theme-choice="oneui" aria-pressed="false"><span class="theme-swatch theme-swatch-oneui"></span><span><strong>Samsung One UI 9</strong><small>Comfortable spacing · Clear hierarchy</small></span><i class="fas fa-check"></i></button>
-            <button type="button" data-theme-choice="oxygenos" aria-pressed="false"><span class="theme-swatch theme-swatch-oxygen"></span><span><strong>OxygenOS 16</strong><small>Minimal · Crisp red accents</small></span><i class="fas fa-check"></i></button>
-            <button type="button" data-theme-choice="hydrogenos" aria-pressed="false"><span class="theme-swatch theme-swatch-hydrogen"></span><span><strong>HydrogenOS Heritage</strong><small>Classic OnePlus-inspired contrast</small></span><i class="fas fa-check"></i></button>
-            <button type="button" data-theme-choice="coloros" aria-pressed="false"><span class="theme-swatch theme-swatch-color"></span><span><strong>ColorOS 17</strong><small>Ocean glass · Smooth surfaces</small></span><i class="fas fa-check"></i></button>
-            <button type="button" data-theme-choice="amoled" aria-pressed="false"><span class="theme-swatch theme-swatch-amoled"></span><span><strong>AMOLED Black</strong><small>Deep black · High contrast</small></span><i class="fas fa-check"></i></button>
-            <button type="button" data-theme-choice="light" aria-pressed="false"><span class="theme-swatch theme-swatch-light"></span><span><strong>Light Glass</strong><small>Bright · Clean · Minimal</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="cyberpunk" aria-pressed="false"><span class="theme-swatch theme-swatch-cyberpunk"></span><span><strong>Cyberpunk Neon</strong><small>Electric cyan &amp; neon magenta glow</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="obsidian" aria-pressed="false"><span class="theme-swatch theme-swatch-obsidian"></span><span><strong>Obsidian Noir</strong><small>Deep AMOLED obsidian &amp; crimson gold</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="chroma" aria-pressed="false"><span class="theme-swatch theme-swatch-chroma"></span><span><strong>AI Chroma Glitch</strong><small>Iridescent violet-teal holographic</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="solarize" aria-pressed="false"><span class="theme-swatch theme-swatch-solarize"></span><span><strong>Solarize Minimal</strong><small>Warm solarized amber &amp; crisp slate</small></span><i class="fas fa-check"></i></button>
+            <button type="button" data-theme-choice="quantum" aria-pressed="false"><span class="theme-swatch theme-swatch-quantum"></span><span><strong>Quantum Frost</strong><small>Arctic glass · Ice-blue highlights</small></span><i class="fas fa-check"></i></button>
           </div>
         </div>
         
@@ -689,7 +697,20 @@
 
           <!-- TAB 2: Add Movie / Series (With Multi-Resolution Downloads & Telegram Integration) -->
           <div id="tab-add-movie" class="admin-tab">
-            <h2>➕ Add New Movie / Web Series / Show</h2>
+            <h2>➕ Add New Movie / Web Series / Show / Audio</h2>
+            <div class="vh-autofetch-box" style="background: var(--bg-secondary); border: 1px solid var(--border); padding: 14px 16px; border-radius: var(--radius-sm); margin-bottom: 18px;">
+              <label style="display:block;font-weight:700;margin-bottom:8px;"><i class="fas fa-wand-magic-sparkles" style="color: var(--accent);"></i> Auto-Fetch AI Metadata (Title / IMDb / TMDB)</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <input type="text" id="vhAutoFetchQuery" placeholder="Type movie or web series name (e.g. Inception)..." style="flex:1;min-width:180px;" autocomplete="off"/>
+                <select id="vhAutoFetchType" style="width:130px;">
+                  <option value="movie">Movie</option>
+                  <option value="tv">Web Series / TV</option>
+                </select>
+                <button type="button" class="btn-primary" id="vhAutoFetchBtn" onclick="autoFetchMetadata()"><i class="fas fa-bolt"></i> Auto-Fetch AI</button>
+              </div>
+              <div id="vhAutoFetchResults" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;"></div>
+              <small id="vhAutoFetchStatus" style="color:var(--text-muted);display:block;margin-top:6px;">Enter a title to auto-fill description, year, rating, and poster.</small>
+            </div>
             <form class="admin-form" onsubmit="addMovie(event)">
               <div class="form-row">
                 <div class="form-group">
@@ -703,6 +724,8 @@
                     <option value="Web Series">Web Series</option>
                     <option value="TV Show">TV Show / Shows</option>
                     <option value="Documentary">Documentary</option>
+                    <option value="Music Video">Music Video</option>
+                    <option value="Audio">Audio / Podcast</option>
                   </select>
                 </div>
               </div>
@@ -728,10 +751,12 @@
                 <div class="form-group">
                   <label for="addIndustry">Industry</label>
                   <select id="addIndustry">
-                    <option value="All">Other / Not specified</option>
+                    <option value="All">All / International</option>
                     <option value="Bollywood">Bollywood</option>
                     <option value="Hollywood">Hollywood</option>
                     <option value="South">South Indian</option>
+                    <option value="Regional">Regional / Punjabi / Bhojpuri</option>
+                    <option value="Anime">Anime / Asian</option>
                   </select>
                 </div>
               </div>
@@ -763,11 +788,15 @@
                 <label for="addStorageProvider">Upload / Link Storage</label>
                 <select id="addStorageProvider">
                   <option value="backblaze_b2">Backblaze B2 (Default — private cloud upload)</option>
+                  <option value="youtube_unlisted">YouTube Unlisted (Embed Player)</option>
+                  <option value="google_drive">Google Drive (public shared video link import)</option>
+                  <option value="telegram">Telegram (authorised post / channel bot link)</option>
+                  <option value="terabox">Terabox (shared video link)</option>
+                  <option value="mega">Mega.nz (shared file link)</option>
+                  <option value="dropbox">Dropbox (shared file link)</option>
+                  <option value="pixeldrain">PixelDrain (up to 90 MiB)</option>
                   <option value="cloudflare_r2">Cloudflare R2 (direct cloud upload)</option>
                   <option value="supabase">Supabase (legacy / existing uploads)</option>
-                  <option value="google_drive">Google Drive (public shared video link import)</option>
-                  <option value="pixeldrain">PixelDrain (up to 90 MiB)</option>
-                  <option value="telegram">Telegram (authorised post link only)</option>
                 </select>
                 <input type="file" id="addVideoFile" accept="video/*" autocomplete="off"/>
                 <small class="pixeldrain-admin-note"><i class="fas fa-cloud"></i> Experimental only: PixelDrain requires a server-side API key and its own site currently lists India as a blocked location. Free shared files can expire after 60 days without qualifying downloads, and hotlink playback requires Pro; CAPTCHA protection can appear. Prefer Backblaze B2 / R2 for BunnyHub movie delivery. In-app PixelDrain uploads are capped at 90 MiB by Cloudflare's request limit.</small>
@@ -987,15 +1016,23 @@
                 <label for="defaultStorageProvider">Default Storage Provider</label>
                 <select id="defaultStorageProvider">
                   <option value="backblaze_b2">Backblaze B2 (recommended default)</option>
+                  <option value="youtube_unlisted">YouTube Unlisted (Embed Player)</option>
                   <option value="cloudflare_r2">Cloudflare R2</option>
                   <option value="supabase">Supabase (legacy)</option>
                   <option value="google_drive">Google Drive</option>
                   <option value="pixeldrain">PixelDrain</option>
                   <option value="telegram">Telegram</option>
+                  <option value="terabox">Terabox</option>
+                  <option value="mega">Mega.nz</option>
+                  <option value="dropbox">Dropbox</option>
                 </select>
               </div>
-              <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Default Storage</button>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+                <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Default Storage</button>
+                <button type="button" class="btn-secondary" id="fixB2CorsBtn" onclick="fixB2Cors()"><i class="fas fa-wrench"></i> Auto-Fix B2 Upload CORS</button>
+              </div>
               <p id="storageSettingsStatus" role="status" style="color:var(--text-muted);margin-top:12px;">Loading storage settings…</p>
+              <p id="b2CorsFixStatus" role="status" style="color:var(--text-muted);margin-top:6px;font-size:.9rem;"></p>
             </form>
             <div class="admin-form" style="margin-top:22px;">
               <h3>Provider availability</h3>
@@ -1243,6 +1280,16 @@
                 <p><strong>AdSense reporting secrets:</strong> ADSENSE_CLIENT_ID, ADSENSE_CLIENT_SECRET, ADSENSE_REFRESH_TOKEN, ADSENSE_ACCOUNT_ID. Use the read-only AdSense OAuth scope. Publisher ID for ads.txt: ADSENSE_PUBLISHER_ID.</p>
               </section>
               <div class="form-group">
+                <label><i class="fas fa-gavel"></i> DMCA Contact Email</label>
+                <input type="email" id="settingDmcaEmail" value="bunnyhub.proton@gmail.com" placeholder="bunnyhub.proton@gmail.com" autocomplete="off"/>
+                <small style="color: var(--text-muted);">Shown on the Copyright &amp; DMCA policy page and footer.</small>
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-images"></i> ImageKit CDN URL Endpoint</label>
+                <input type="url" id="settingImagekitUrl" placeholder="https://ik.imagekit.io/your_id/" autocomplete="off"/>
+                <small style="color: var(--text-muted);">Optional: Automatically optimizes and caches poster images via ImageKit CDN.</small>
+              </div>
+              <div class="form-group">
                 <label>SEO Meta Description</label>
                 <textarea id="settingSeo" rows="2">BunnyHub - Stream and Download the best Bollywood, Hollywood, and South Indian Movies & Web Series online in HD.</textarea>
               </div>
@@ -1268,6 +1315,33 @@
                 <div class="form-group"><label for="settingAdsSlotHome">Homepage Ad Slot ID</label><input type="text" id="settingAdsSlotHome" inputmode="numeric" placeholder="Numeric slot ID" maxlength="20"/></div>
                 <div class="form-group"><label for="settingAdsSlotFooter">Footer Ad Slot ID</label><input type="text" id="settingAdsSlotFooter" inputmode="numeric" placeholder="Numeric slot ID" maxlength="20"/></div>
               </div>
+              <section class="admin-form vh-ad-controller" style="margin:18px 0;padding:14px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+                <h3><i class="fas fa-sliders-h"></i> Ad Controller, Timing &amp; Custom Script Manager (Adsterra / Monetag / Pop-up)</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="settingAdNetwork">Active Ad Mode</label>
+                    <select id="settingAdNetwork">
+                      <option value="off">Off</option>
+                      <option value="adsense">Google AdSense Only</option>
+                      <option value="custom">Custom Ad Script Only (Adsterra / Monetag)</option>
+                      <option value="both">Both AdSense + Custom Scripts</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="settingAdDelaySec">Ad Trigger Delay (Seconds)</label>
+                    <input type="number" id="settingAdDelaySec" min="0" max="120" value="5" placeholder="5"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="settingAdFrequencyMin">Pop-up Cooldown (Minutes)</label>
+                    <input type="number" id="settingAdFrequencyMin" min="0" max="1440" value="15" placeholder="15"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="settingCustomAdScript">HTML Header / JS Ad Script Code</label>
+                  <textarea id="settingCustomAdScript" rows="4" placeholder="Paste your Adsterra / Monetag / HilltopAds / Pop-under &lt;script&gt; code here..."></textarea>
+                  <small style="color:var(--text-muted);">Only Main Admin can save scripts. Runs on public pages after the configured delay and cooldown.</small>
+                </div>
+              </section>
               <div class="form-group">
                 <label for="settingDonationUpi">Donation UPI ID (VPA)</label>
                 <input type="text" id="settingDonationUpi" maxlength="128" placeholder="yourname@upi" autocomplete="off"/>
@@ -1535,6 +1609,7 @@
         <h2>Report a concern</h2>
         <p>If you believe content on BunnyHub infringes your rights, submit a Community complaint with the exact page or content title, the relevant source URL, a description of the copyrighted work, evidence of ownership or authority to act, and a reliable contact method. Do not include passwords or sensitive payment information.</p>
         <p>Reports are reviewed by the site team. This online complaint route is not a substitute for any formal notice required by applicable copyright law. The site owner must publish a designated legal contact and complete the required notice-and-takedown process before relying on this page as a formal copyright agent notice.</p>
+        <p><strong>DMCA Contact Email:</strong> <a href="mailto:bunnyhub.proton@gmail.com" data-vh-dmca-email>bunnyhub.proton@gmail.com</a></p>
         <p><a href="https://t.me/BunnyHub_official" target="_blank" rel="noopener">Official BunnyHub Telegram channel</a></p>
       </section>
     </div>
@@ -1561,6 +1636,7 @@
         <a href="#" onclick="openCookieSettingsModal(event)">Cookies Settings</a>
         <a href="/terms.html">Terms of Use</a>
         <a href="/copyright.html">Copyright & Content Policy</a>
+        <a href="mailto:bunnyhub.proton@gmail.com" data-vh-dmca-email>DMCA: bunnyhub.proton@gmail.com</a>
         <button type="button" class="footer-donate-btn" onclick="openDonationPanel()"><i class="fas fa-heart"></i> Support BunnyHub</button>
         <a href="https://t.me/BunnyHub_official" target="_blank" class="telegram-target-link" style="color: #229ED9;">
           <i class="fab fa-telegram-plane"></i> Join Telegram
